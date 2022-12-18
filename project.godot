@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Kaizemo 4"
+run/main_scene="res://Playground.tscn"
 config/features=PackedStringArray("4.0", "C#", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+InputManager="*res://Singletons/InputManager.cs"
 
 [display]
 
@@ -26,12 +31,43 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="Kaizemo 4"
 
+[editor]
+
+scene/scene_naming=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/BetterFileSystem/plugin.cfg")
+
+[input]
+
+MoveLeft={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"unicode":0,"echo":false,"script":null)
+]
+}
+MoveRight={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"unicode":0,"echo":false,"script":null)
+]
+}
+Jump={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"unicode":0,"echo":false,"script":null)
+]
+}
+
 [layer_names]
 
 2d_physics/layer_1="Environment"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="KillPlayer"
 
+[physics]
+
+2d/default_gravity=240.0
+
 [rendering]
 
+environment/defaults/default_clear_color=Color(0.47451, 0.235294, 0.654902, 1)
 textures/canvas_textures/default_texture_filter=0

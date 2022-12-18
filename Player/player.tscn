@@ -4,17 +4,22 @@
 [ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Player/Player.png" id="2_qx4bh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
-size = Vector2(9, 14)
+size = Vector2(8.95, 13.95)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-slide_on_ceiling = false
 floor_constant_speed = true
+safe_margin = 0.1
 script = ExtResource("1_jivuf")
-_killArea = NodePath("HurtArea")
-speed = 200.0
-jumpVelocity = -200.0
-gravityScale = 0.26
+jumpVelocity = -115.0
+gravityScale = 0.95
+jumpingGravityScale = 0.85
+jumpCancelStrenght = 0.3
+groundedAcceleration = 460.0
+airAcceleration = 250.0
+groundDamping = 0.35
+groundedStopDamping = 0.55
+airDamping = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)
@@ -36,3 +41,8 @@ collision_mask = 4
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_ia4sn")
 debug_color = Color(0, 0.6, 0.701961, 0.0666667)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
