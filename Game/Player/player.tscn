@@ -1,10 +1,239 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1ono2lvu246b"]
+[gd_scene load_steps=29 format=3 uid="uid://cm5xq3qddux0"]
 
 [ext_resource type="Script" path="res://Game/Player/Player.cs" id="1_xsm3d"]
 [ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Game/Player/Player.png" id="2_1yd4d"]
+[ext_resource type="Material" uid="uid://chpjvmi5swcvg" path="res://Particles/Dust/DustParticles.material" id="3_dwyti"]
+[ext_resource type="Texture2D" uid="uid://nftcffrmb84v" path="res://Particles/Dust/DustParticle.png" id="4_ki6bk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
-size = Vector2(8.95, 13.95)
+size = Vector2(7, 15)
+
+[sub_resource type="Animation" id="Animation_vgf0n"]
+resource_name = "Die"
+
+[sub_resource type="Animation" id="Animation_tvs37"]
+resource_name = "Fall"
+
+[sub_resource type="Animation" id="Animation_k4shk"]
+resource_name = "Idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_04f6t"]
+resource_name = "Jump"
+
+[sub_resource type="Animation" id="Animation_vbuqi"]
+resource_name = "Land"
+
+[sub_resource type="Animation" id="Animation_r3t0f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_h6l71"]
+resource_name = "Run"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0349066, 0.0523599, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8m1qr"]
+_data = {
+"Die": SubResource("Animation_vgf0n"),
+"Fall": SubResource("Animation_tvs37"),
+"Idle": SubResource("Animation_k4shk"),
+"Jump": SubResource("Animation_04f6t"),
+"Land": SubResource("Animation_vbuqi"),
+"RESET": SubResource("Animation_r3t0f"),
+"Run": SubResource("Animation_h6l71")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lpbh6"]
+animation = &"Land"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3i8a3"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gxy1d"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6apjh"]
+animation = &"Die"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_cq8kp"]
+enabled_inputs = 2
+input_0/name = "No"
+input_0/auto_advance = false
+input_1/name = "Yes"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gtke8"]
+animation = &"Jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_txkvf"]
+animation = &"Fall"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_pnnhc"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_gtke8")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_txkvf")
+blend_point_1/pos = 1.0
+value_label = "fall_speed"
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_0xcc6"]
+enabled_inputs = 2
+input_0/name = "No"
+input_0/auto_advance = false
+input_1/name = "Yes"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_c6pyk"]
+enabled_inputs = 2
+input_0/name = "Idle"
+input_0/auto_advance = false
+input_1/name = "Run"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_wgogu"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5ac18"]
+graph_offset = Vector2(-505.113, -57.3074)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_6apjh")
+nodes/Animation/position = Vector2(-40, 260)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_lpbh6")
+"nodes/Animation 2/position" = Vector2(-360, 300)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_3i8a3")
+"nodes/Animation 3/position" = Vector2(-540, 100)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_gxy1d")
+"nodes/Animation 4/position" = Vector2(-540, 220)
+nodes/Dead/node = SubResource("AnimationNodeTransition_cq8kp")
+nodes/Dead/position = Vector2(120, 140)
+nodes/Falling/node = SubResource("AnimationNodeBlendSpace1D_pnnhc")
+nodes/Falling/position = Vector2(-200, -20)
+nodes/Grounded/node = SubResource("AnimationNodeTransition_0xcc6")
+nodes/Grounded/position = Vector2(-40, 60)
+nodes/GroundedState/node = SubResource("AnimationNodeTransition_c6pyk")
+nodes/GroundedState/position = Vector2(-380, 120)
+nodes/Landed/node = SubResource("AnimationNodeOneShot_wgogu")
+nodes/Landed/position = Vector2(-200, 160)
+nodes/output/position = Vector2(260, 180)
+node_connections = [&"output", 0, &"Dead", &"Dead", 0, &"Grounded", &"Dead", 1, &"Animation", &"Grounded", 0, &"Falling", &"Grounded", 1, &"Landed", &"GroundedState", 0, &"Animation 3", &"GroundedState", 1, &"Animation 4", &"Landed", 0, &"GroundedState", &"Landed", 1, &"Animation 2"]
+
+[sub_resource type="Gradient" id="Gradient_jg124"]
+offsets = PackedFloat32Array(0, 0.509225, 1)
+colors = PackedColorArray(0.97417, 0.97417, 0.97417, 1, 0.927438, 0.927438, 0.927438, 1, 0.99, 0.99, 0.99, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0fpvi"]
+gradient = SubResource("Gradient_jg124")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t6au8"]
+emission_shape = 3
+emission_box_extents = Vector3(1.5, 0.2, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 5.0
+gravity = Vector3(0, -7, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 5.5
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 48.0
+damping_max = 52.0
+color_ramp = SubResource("GradientTexture1D_0fpvi")
+anim_offset_min = 0.6
+anim_offset_max = 1.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -12,34 +241,93 @@ floor_constant_speed = true
 safe_margin = 0.1
 script = ExtResource("1_xsm3d")
 jumpVelocity = -115.0
-gravityScale = 0.95
-jumpingGravityScale = 0.85
+jumpGravityScale = 0.7
+jumpCancelGravityScale = 1.5
 jumpCancelStrenght = 0.3
-groundedAcceleration = 460.0
 airAcceleration = 250.0
-groundDamping = 0.35
-groundedStopDamping = 0.55
 airDamping = 0.2
+groundAcceleration = 350.0
+groundDamping = 0.35
+groundStopDamping = 0.494
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
+position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_ia4sn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_1yd4d")
 hframes = 3
 vframes = 2
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-
-[node name="HurtArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
-position = Vector2(0.5, 0)
-shape = SubResource("RectangleShape2D_ia4sn")
-debug_color = Color(0, 0.6, 0.701961, 0.0666667)
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8m1qr")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_5ac18")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/Dead/current = 1
+parameters/Falling/blend_position = 0.022999
+parameters/Grounded/current = 1
+parameters/GroundedState/current = 1
+parameters/Landed/active = false
+
+[node name="DustParticles" type="Node2D" parent="."]
+show_behind_parent = true
+
+[node name="RunParticles" type="GPUParticles2D" parent="DustParticles"]
+modulate = Color(0.34902, 0.541176, 0.498039, 1)
+material = ExtResource("3_dwyti")
+position = Vector2(0, 8)
+process_material = SubResource("ParticleProcessMaterial_t6au8")
+texture = ExtResource("4_ki6bk")
+lifetime = 0.9
+explosiveness = 0.08
+randomness = 0.34
+fixed_fps = 24
+
+[node name="JumpParticles" type="GPUParticles2D" parent="DustParticles"]
+visible = false
+modulate = Color(0.34902, 0.541176, 0.498039, 1)
+material = ExtResource("3_dwyti")
+position = Vector2(0, 8)
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_t6au8")
+texture = ExtResource("4_ki6bk")
+lifetime = 0.9
+explosiveness = 0.08
+randomness = 0.34
+fixed_fps = 24
+
+[node name="LandParticles" type="GPUParticles2D" parent="DustParticles"]
+visible = false
+modulate = Color(0.34902, 0.541176, 0.498039, 1)
+material = ExtResource("3_dwyti")
+position = Vector2(0, 8)
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_t6au8")
+texture = ExtResource("4_ki6bk")
+lifetime = 0.9
+explosiveness = 0.08
+randomness = 0.34
+fixed_fps = 24
+
+[node name="DiveParticles" type="GPUParticles2D" parent="DustParticles"]
+visible = false
+modulate = Color(0.34902, 0.541176, 0.498039, 1)
+material = ExtResource("3_dwyti")
+position = Vector2(0, 8)
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_t6au8")
+texture = ExtResource("4_ki6bk")
+lifetime = 0.9
+explosiveness = 0.08
+randomness = 0.34
+fixed_fps = 24
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+current = true

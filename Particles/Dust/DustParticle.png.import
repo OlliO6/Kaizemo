@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc5h36q5htmh8"
-path="res://.godot/imported/untitled.png-6aa3d953fdcfa501bf543bac37b75636.ctex"
+uid="uid://nftcffrmb84v"
+path="res://.godot/imported/DustParticle.png-c9dc1745a266716cf38f2e901c34fbae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://untitled.png"
-dest_files=["res://.godot/imported/untitled.png-6aa3d953fdcfa501bf543bac37b75636.ctex"]
+source_file="res://Particles/Dust/DustParticle.png"
+dest_files=["res://.godot/imported/DustParticle.png-c9dc1745a266716cf38f2e901c34fbae.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

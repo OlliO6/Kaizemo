@@ -8,7 +8,7 @@ using System.Text;
 
 public class SceneGenerator
 {
-    private const string GeneratedSceneAssociationsPath = "addons/SafeStrings/Generated/Scenes";
+    private const string GeneratedSceneAssociationsPath = "res://addons/SafeStrings/Generated/Scenes";
 
     private FileSystemWatcher watcher;
 
@@ -18,8 +18,6 @@ public class SceneGenerator
         watcher.Path = Settings.GlobalRootPath;
         watcher.EnableRaisingEvents = true;
         watcher.IncludeSubdirectories = true;
-
-        watcher.Filter = "*.tscn";
 
         watcher.Created += OnSceneChanged;
         watcher.Changed += OnSceneChanged;
@@ -53,7 +51,7 @@ public class SceneGenerator
 
     public void UpdateAll()
     {
-        foreach (string file in Directory.EnumerateFiles(GeneratedSceneAssociationsPath))
+        foreach (string file in Directory.EnumerateFiles(ProjectSettings.GlobalizePath(GeneratedSceneAssociationsPath)))
         {
             File.Delete(file);
         }

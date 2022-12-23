@@ -17,6 +17,14 @@ public static class Res
             public static readonly ResourcePath<Godot.PackedScene> player_tscn = "res://Game/Player/player.tscn";
         }
     }
+    public static class Particles
+    {
+        public static class Dust
+        {
+            public static readonly ResourcePath<Godot.CompressedTexture2D> DustParticle_png = "res://Particles/Dust/DustParticle.png";
+            public static readonly ResourcePath<Godot.CanvasItemMaterial> DustParticles_material = "res://Particles/Dust/DustParticles.material";
+        }
+    }
     public static class Shaders
     {
         public static class Common

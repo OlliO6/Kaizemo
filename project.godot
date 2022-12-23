@@ -15,8 +15,7 @@ do_register_resources=true
 [SafeStrings]
 
 scenes/scene_associations={
-"res://Game/Player/player.tscn": "res://Game/Player/Player.cs",
-"res://Player/player.tscn": "res://Player/Player.cs"
+"res://Game/Player/player.tscn": "res://Game/Player/Player.cs"
 }
 
 [application]
@@ -47,7 +46,7 @@ scene/scene_naming=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SafeStrings/plugin.cfg", "res://addons/BetterFileSystem/plugin.cfg", "res://addons/CSResourePicker/plugin.cfg")
+enabled=PackedStringArray("res://addons/BetterFileSystem/plugin.cfg", "res://addons/CSResourePicker/plugin.cfg", "res://addons/SafeStrings/plugin.cfg")
 
 [input]
 
@@ -79,5 +78,6 @@ Jump={
 
 [rendering]
 
+renderer/rendering_method="mobile"
 environment/defaults/default_clear_color=Color(0.47451, 0.235294, 0.654902, 1)
 textures/canvas_textures/default_texture_filter=0
