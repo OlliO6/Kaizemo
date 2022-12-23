@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cnomvfv3kmn25" path="res://Platform.png" id="1_70ubp"]
 [ext_resource type="Script" path="res://LevelMap.cs" id="2_h4pev"]
-[ext_resource type="PackedScene" uid="uid://bj7p1igvs4r5k" path="res://Player/player.tscn" id="3_ef5mo"]
+[ext_resource type="PackedScene" uid="uid://cm5xq3qddux0" path="res://Game/Player/player.tscn" id="3_ef5mo"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_xgft2"]
 tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 1, 131072, 0, 2, 1, 65536, 0, 65537, 65536, 1, 131073, 65536, 2, 2, 131072, 0, 65538, 131072, 1, 131074, 131072, 2)
@@ -657,9 +657,5 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(-196597, 196608, 3, -196595, 196608, 3, -65521, 196608, 3, -65519, 196608, 3)
 script = ExtResource("2_h4pev")
-
-[node name="Tree" type="Tree" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="Player" parent="." instance=ExtResource("3_ef5mo")]

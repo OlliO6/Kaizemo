@@ -5,15 +5,19 @@
     <RootNamespace>Kaizemo4</RootNamespace>
     <!-- <Nullable>enable</Nullable> -->
   </PropertyGroup>
+
   <ItemGroup>
     <!-- Global usings -->
     <Using Include="SafeStrings" />
   </ItemGroup>
+
   <ItemGroup>
     <!-- Source Generators -->
     <Compile Remove="addons\CleanerSignalsGenerator/**" />
-    <ProjectReference Include="addons\CleanerSignalsGenerator\CleanerSignalsGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="addons\CleanerSignalsGenerator\CleanerSignalsGenerator.csproj"
+      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <Compile Remove="addons\CSResourePicker\Generator/**" />
-    <ProjectReference Include="addons\CSResourePicker\Generator\ResourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="addons\CSResourePicker\Generator\ResourceGenerator.csproj"
+      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>

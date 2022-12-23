@@ -19,19 +19,14 @@ public partial class Player : CharacterBody2D
     [Export] public Vector2 diveUpVelocity;
     [Export] public Vector2 diveHorizontalVelocity;
 
-    [Export] private NewScript res;
-    [Export] private PackedScene scn;
-    [Export] private NodePath node;
-
     public float baseGravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+    public LevelMap map;
 
     private Timer groundRememberTimer;
     private bool isGrounded, isJumping;
     private bool faceLeft;
 
     public AnimationPlayer Anim => Scene.AnimationPlayer.GetCached(this);
-    // public GPUParticles2D RunParticles => Scene;
-    public LevelMap Map;
 
     public bool FaceLeft
     {
@@ -163,7 +158,6 @@ public partial class Player : CharacterBody2D
             }
         }
     }
-
 
     private void OnJumpReleased()
     {

@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1ono2lvu246b"]
+
+[ext_resource type="Script" path="res://Game/Player/Player.cs" id="1_xsm3d"]
+[ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Game/Player/Player.png" id="2_1yd4d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
+size = Vector2(8.95, 13.95)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+floor_constant_speed = true
+safe_margin = 0.1
+script = ExtResource("1_xsm3d")
+jumpVelocity = -115.0
+gravityScale = 0.95
+jumpingGravityScale = 0.85
+jumpCancelStrenght = 0.3
+groundedAcceleration = 460.0
+airAcceleration = 250.0
+groundDamping = 0.35
+groundedStopDamping = 0.55
+airDamping = 0.2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_ia4sn")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_1yd4d")
+hframes = 3
+vframes = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="HurtArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_ia4sn")
+debug_color = Color(0, 0.6, 0.701961, 0.0666667)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -17,10 +17,6 @@ void fragment()
 	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(0, size.y)).a;
 	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(size.x, 0)).a;
 	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(0, -size.y)).a;
-//	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(-size.x, size.y)).a;
-//	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(size.x, size.y)).a;
-//	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(-size.x, -size.y)).a;
-//	outline += texture(SCREEN_TEXTURE, SCREEN_UV + vec2(size.x, -size.y)).a;
 	outline = min(outline, 1.0);
 	
 	vec4 animated_line_color = vec4(light_offset + sin(2.0 * PI * frequency * TIME),

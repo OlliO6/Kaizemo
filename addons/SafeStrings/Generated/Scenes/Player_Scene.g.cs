@@ -2,7 +2,7 @@ partial class Player : SafeStrings.IScene<Player>
 {
     public static Player Instantiate()
     {
-        var val = SafeStrings.Res.Player.player_tscn.Value.Instantiate<Player>();
+        var val = SafeStrings.Res.Game.Player.player_tscn.Value.Instantiate<Player>();
         ((SafeStrings.IScene<Player>)val).OnInstanced();
         return val;
     }
@@ -44,24 +44,6 @@ partial class Player : SafeStrings.IScene<Player>
             public static Godot.AnimationPlayer Get(Godot.Node root) => Path.Get(root);
             public static Godot.AnimationPlayer GetCached(Godot.Node root) => Path.GetCached(root);
         }
-        public static partial class Sprite2D4
-        {
-            public static SafeStrings.SceneNodePath<Godot.Sprite2D> Path = "./Sprite2D4";
-            public static Godot.Sprite2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.Sprite2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }
-        public static partial class CanvasGroup
-        {
-            public static SafeStrings.SceneNodePath<Godot.CanvasGroup> Path = "./CanvasGroup";
-            public static Godot.CanvasGroup Get(Godot.Node root) => Path.Get(root);
-            public static Godot.CanvasGroup GetCached(Godot.Node root) => Path.GetCached(root);
-        }
-        partial class CanvasGroup { public static partial class GPUParticles2D
-        {
-            public static SafeStrings.SceneNodePath<Godot.GPUParticles2D> Path = "./CanvasGroup/GPUParticles2D";
-            public static Godot.GPUParticles2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.GPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }}
         
         public static class Unique
         {

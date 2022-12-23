@@ -15,6 +15,7 @@ do_register_resources=true
 [SafeStrings]
 
 scenes/scene_associations={
+"res://Game/Player/player.tscn": "res://Game/Player/Player.cs",
 "res://Player/player.tscn": "res://Player/Player.cs"
 }
 
