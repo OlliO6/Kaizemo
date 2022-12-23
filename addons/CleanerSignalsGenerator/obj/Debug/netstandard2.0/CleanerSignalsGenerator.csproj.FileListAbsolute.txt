@@ -1,0 +1,10 @@
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\bin\Debug\netstandard2.0\CleanerSignalsGenerator.deps.json
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\bin\Debug\netstandard2.0\CleanerSignalsGenerator.dll
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\bin\Debug\netstandard2.0\CleanerSignalsGenerator.pdb
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.csproj.AssemblyReference.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.AssemblyInfoInputs.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.AssemblyInfo.cs
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.csproj.CoreCompileInputs.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.dll
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CleanerSignalsGenerator\obj\Debug\netstandard2.0\CleanerSignalsGenerator.pdb

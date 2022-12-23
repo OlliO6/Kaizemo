@@ -4,14 +4,10 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-    [Signal] public delegate void JumpedEventHandler(Player sender, bool highJump);
+    [Signal] public delegate void JumpedEventHandler(Player sender, bool highJump, Test test);
     [Signal] public delegate void LandedEventHandler(Player sender);
 
     public const float JumpLenienceTime = 0.1f;
-
-    [Export] private AnimationPlayer anim;
-    [Export] private GPUParticles2D runParticles;
-    [Export] private LevelMap map;
 
     [Export, ExportGroup("Movement")] public float jumpVelocity;
     [Export] public float gravityScale = 1, jumpingGravityScale;
@@ -23,11 +19,19 @@ public partial class Player : CharacterBody2D
     [Export] public Vector2 diveUpVelocity;
     [Export] public Vector2 diveHorizontalVelocity;
 
+    [Export] private NewScript res;
+    [Export] private PackedScene scn;
+    [Export] private NodePath node;
+
     public float baseGravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
     private Timer groundRememberTimer;
     private bool isGrounded, isJumping;
     private bool faceLeft;
+
+    public AnimationPlayer Anim => Scene.AnimationPlayer.GetCached(this);
+    // public GPUParticles2D RunParticles => Scene;
+    public LevelMap Map;
 
     public bool FaceLeft
     {
@@ -70,6 +74,8 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        float deltaf = (float)delta;
+
         Vector2 velocity = Velocity;
         float horizontalInput = InputManager.GetPlayerHorizontalInput();
 
@@ -94,11 +100,11 @@ public partial class Player : CharacterBody2D
 
             if (isJumping)
             {
-                velocity.y += baseGravity * jumpingGravityScale * (float)delta;
+                velocity.y += baseGravity * jumpingGravityScale * deltaf;
                 return;
             }
 
-            velocity.y += baseGravity * gravityScale * (float)delta;
+            velocity.y += baseGravity * gravityScale * deltaf;
         }
 
         void MoveHorizontal()
@@ -108,13 +114,13 @@ public partial class Player : CharacterBody2D
 
             if (isGrounded)
             {
-                velocity.x += horizontalInput * groundedAcceleration * (float)delta;
-                velocity.x *= Mathf.Pow(1f - (horizontalInput == 0 ? groundedStopDamping : groundDamping), (float)delta * 10f);
+                velocity.x += horizontalInput * groundedAcceleration * deltaf;
+                velocity.x *= Mathf.Pow(1f - (horizontalInput == 0 ? groundedStopDamping : groundDamping), deltaf * 10f);
                 return;
             }
 
-            velocity.x += InputManager.GetPlayerHorizontalInput() * airAcceleration * (float)delta;
-            velocity.x *= Mathf.Pow(1f - airDamping, (float)delta * 10f);
+            velocity.x += InputManager.GetPlayerHorizontalInput() * airAcceleration * deltaf;
+            velocity.x *= Mathf.Pow(1f - airDamping, deltaf * 10f);
         }
 
         void HandleJumping()
@@ -171,8 +177,7 @@ public partial class Player : CharacterBody2D
 
     private void Jump(float jumpVelocity, ref Vector2 velocity)
     {
-        Emit.Jumped(this, false);
-        EmitSignal(SignalName.Jumped, this);
+        // GetEmitter<SignalEmitter.Jumped>().Emit(this, false);
 
         isJumping = true;
         velocity.y = jumpVelocity;
@@ -197,7 +202,7 @@ public partial class Player : CharacterBody2D
 
     private void Land()
     {
-        Emit.Landed(this);
+        // Emit.Landed(this);
     }
 
     public void Die()
@@ -205,3 +210,5 @@ public partial class Player : CharacterBody2D
         GD.Print("Player died.");
     }
 }
+
+public enum Test { guzg, uhgik }

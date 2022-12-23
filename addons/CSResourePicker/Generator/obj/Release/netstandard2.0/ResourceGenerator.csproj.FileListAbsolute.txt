@@ -1,0 +1,20 @@
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\bin\Release\netstandard2.0\ResourceGenerator.deps.json
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\bin\Release\netstandard2.0\ResourceGenerator.dll
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\bin\Release\netstandard2.0\ResourceGenerator.pdb
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.csproj.AssemblyReference.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.AssemblyInfoInputs.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.AssemblyInfo.cs
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.csproj.CoreCompileInputs.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.dll
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Quick References\ReferencesGenerator\obj\Release\netstandard2.0\ResourceGenerator.pdb
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\bin\Release\netstandard2.0\ResourceGenerator.deps.json
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\bin\Release\netstandard2.0\ResourceGenerator.dll
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\bin\Release\netstandard2.0\ResourceGenerator.pdb
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.csproj.AssemblyReference.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.AssemblyInfoInputs.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.AssemblyInfo.cs
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.csproj.CoreCompileInputs.cache
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.dll
+C:\Users\olive\GodotProjects\Kaizemo 4\addons\CSResourePicker\Generator\obj\Release\netstandard2.0\ResourceGenerator.pdb

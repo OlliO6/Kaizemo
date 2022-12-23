@@ -1,0 +1,18 @@
+﻿<Project Sdk="Godot.NET.Sdk/4.0.0-beta.8">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Kaizemo4</RootNamespace>
+    <!-- <Nullable>enable</Nullable> -->
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="SafeStrings" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Source Generators -->
+    <Compile Remove="addons\CleanerSignalsGenerator/**" />
+    <ProjectReference Include="addons\CleanerSignalsGenerator\CleanerSignalsGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <Compile Remove="addons\CSResourePicker\Generator/**" />
+    <ProjectReference Include="addons\CSResourePicker\Generator\ResourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+</Project>

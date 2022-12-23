@@ -8,12 +8,21 @@
 
 config_version=5
 
+[ResPicker]
+
+do_register_resources=true
+
+[SafeStrings]
+
+scenes/scene_associations={
+"res://Player/player.tscn": "res://Player/Player.cs"
+}
+
 [application]
 
 config/name="Kaizemo 4"
 run/main_scene="res://Playground.tscn"
 config/features=PackedStringArray("4.0", "C#", "Mobile")
-config/icon="res://icon.svg"
 
 [autoload]
 
@@ -37,7 +46,7 @@ scene/scene_naming=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/BetterFileSystem/plugin.cfg")
+enabled=PackedStringArray("res://addons/SafeStrings/plugin.cfg", "res://addons/BetterFileSystem/plugin.cfg", "res://addons/CSResourePicker/plugin.cfg")
 
 [input]
 
