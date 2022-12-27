@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using PlayerBehaviour;
 
 public partial class LevelMap : TileMap
 {
@@ -29,8 +30,8 @@ public partial class LevelMap : TileMap
     {
         if (body is Player player)
         {
-            if (tile.GetCustomData("KillPlayer").AsBool() == true)
-                player.Die();
+            // if (tile.GetCustomData("KillPlayer").AsBool() == true)
+            //     player.Die();'
 
             return;
         }

@@ -17,6 +17,16 @@ public class InputActionsGenerators
         watcher = new FileSystemWatcher();
         watcher.Path = ProjectSettings.GlobalizePath("res://");
         watcher.Filter = "project.godot";
+
+        watcher.NotifyFilter = NotifyFilters.Attributes
+                                | NotifyFilters.CreationTime
+                                | NotifyFilters.DirectoryName
+                                | NotifyFilters.FileName
+                                | NotifyFilters.LastAccess
+                                | NotifyFilters.LastWrite
+                                | NotifyFilters.Security
+                                | NotifyFilters.Size;
+
         watcher.EnableRaisingEvents = true;
         watcher.IncludeSubdirectories = false;
 
@@ -25,6 +35,9 @@ public class InputActionsGenerators
 
     private void OnProjectChanged(object sender, FileSystemEventArgs e)
     {
+        if (e.Name == null)
+            return;
+
         Callable.From(Update).CallDeferred();
     }
 
@@ -67,7 +80,7 @@ public class InputActionsGenerators
 
         sb.Append("}");
 
-        File.WriteAllText("addons/SafeStrings/Generated/InputActions.g.cs", sb.ToString(), Encoding.UTF8);
+        File.WriteAllText($"{Settings.GlobalRootPath}/addons/SafeStrings/Generated/InputActions.g.cs", sb.ToString(), Encoding.UTF8);
     }
 }
 

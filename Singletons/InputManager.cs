@@ -3,16 +3,14 @@ using Godot;
 
 public partial class InputManager : Node
 {
-    const float JumpBufferTime = 0.15f;
+    const float JumpBufferTime = 0.1f;
 
     public static InputManager Instance { get; private set; }
 
     public static event Action JumpPressed, JumpReleased, PausePressed;
 
-
     public static bool IsJumpBuffered => Instance.jumpBufferTimer.TimeLeft != 0 && !Instance.jumpBufferTimer.IsStopped();
-    public static bool IsHoldingJump => Input.IsActionPressed("Jump");
-
+    public static bool IsHoldingJump => Input.IsActionPressed(InputAction.Jump);
 
     private Timer jumpBufferTimer;
 
@@ -37,14 +35,14 @@ public partial class InputManager : Node
 
     public static void UseJumpBuffer() => Instance.jumpBufferTimer.Stop();
 
-    public static float GetPlayerHorizontalInput() => Input.GetAxis("MoveLeft", "MoveRight");
+    public static float GetPlayerHorizontalInput() => Input.GetAxis(InputAction.MoveLeft, InputAction.MoveRight);
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsEcho())
             return;
 
-        if (@event.IsAction("Jump"))
+        if (@event.IsAction(InputAction.Jump))
         {
             if (@event.IsPressed())
             {

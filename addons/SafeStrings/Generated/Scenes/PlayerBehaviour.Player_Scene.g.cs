@@ -1,3 +1,4 @@
+namespace PlayerBehaviour;
 partial class Player : SafeStrings.IScene<Player>
 {
     public static Player Instantiate()
@@ -8,6 +9,12 @@ partial class Player : SafeStrings.IScene<Player>
     }
     public static class Scene
     {
+        public static partial class StateMachine
+        {
+            public static SafeStrings.SceneNodePath<StateMachines.StateMachine> Path = "./StateMachine";
+            public static StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
+            public static StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
+        }
         public static partial class CollisionShape2D
         {
             public static SafeStrings.SceneNodePath<Godot.CollisionShape2D> Path = "./CollisionShape2D";
@@ -34,9 +41,9 @@ partial class Player : SafeStrings.IScene<Player>
         }
         public static partial class DustParticles
         {
-            public static SafeStrings.SceneNodePath<Godot.Node2D> Path = "./DustParticles";
-            public static Godot.Node2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.Node2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Godot.CanvasGroup> Path = "./DustParticles";
+            public static Godot.CanvasGroup Get(Godot.Node root) => Path.Get(root);
+            public static Godot.CanvasGroup GetCached(Godot.Node root) => Path.GetCached(root);
         }
         partial class DustParticles { public static partial class RunParticles
         {
@@ -67,6 +74,18 @@ partial class Player : SafeStrings.IScene<Player>
             public static SafeStrings.SceneNodePath<Godot.Camera2D> Path = "./Camera2D";
             public static Godot.Camera2D Get(Godot.Node root) => Path.Get(root);
             public static Godot.Camera2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }
+        public static partial class StateLabel
+        {
+            public static SafeStrings.SceneNodePath<Godot.Label> Path = "./StateLabel";
+            public static Godot.Label Get(Godot.Node root) => Path.Get(root);
+            public static Godot.Label GetCached(Godot.Node root) => Path.GetCached(root);
+        }
+        public static partial class GroundRememberTimer
+        {
+            public static SafeStrings.SceneNodePath<Godot.Timer> Path = "./GroundRememberTimer";
+            public static Godot.Timer Get(Godot.Node root) => Path.Get(root);
+            public static Godot.Timer GetCached(Godot.Node root) => Path.GetCached(root);
         }
         
         public static class Unique

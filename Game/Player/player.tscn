@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://cm5xq3qddux0"]
+[gd_scene load_steps=31 format=3 uid="uid://8gmudkqaoa0f"]
 
 [ext_resource type="Script" path="res://Game/Player/Player.cs" id="1_xsm3d"]
 [ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Game/Player/Player.png" id="2_1yd4d"]
 [ext_resource type="Material" uid="uid://chpjvmi5swcvg" path="res://Particles/Dust/DustParticles.material" id="3_dwyti"]
 [ext_resource type="Texture2D" uid="uid://nftcffrmb84v" path="res://Particles/Dust/DustParticle.png" id="4_ki6bk"]
+[ext_resource type="PackedScene" uid="uid://cohbobyhnvk2l" path="res://Components/StateMachine/StateMachine.tscn" id="6_j50qi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
 size = Vector2(7, 15)
@@ -13,6 +14,19 @@ resource_name = "Die"
 
 [sub_resource type="Animation" id="Animation_tvs37"]
 resource_name = "Fall"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
 
 [sub_resource type="Animation" id="Animation_k4shk"]
 resource_name = "Idle"
@@ -57,9 +71,35 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_04f6t"]
 resource_name = "Jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_vbuqi"]
 resource_name = "Land"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.0002, 0.05, 0.3),
+"transitions": PackedFloat32Array(-2, 1, 1, -2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(1.3, 0.7), Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_r3t0f"]
 length = 0.001
@@ -114,7 +154,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, -0.0349066, 0.0523599, 0.0]
+"values": [0.0, -0.0174533, 0.0610865, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -159,18 +199,17 @@ input_0/auto_advance = false
 input_1/name = "Yes"
 input_1/auto_advance = false
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gtke8"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5bl2q"]
 animation = &"Jump"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_txkvf"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pun85"]
 animation = &"Fall"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_pnnhc"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_gtke8")
+blend_point_0/node = SubResource("AnimationNodeAnimation_5bl2q")
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_txkvf")
+blend_point_1/node = SubResource("AnimationNodeAnimation_pun85")
 blend_point_1/pos = 1.0
-value_label = "fall_speed"
 
 [sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_0xcc6"]
 enabled_inputs = 2
@@ -187,9 +226,12 @@ input_1/name = "Run"
 input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_wgogu"]
+mix_mode = 1
+fadein_time = 0.09
+fadeout_time = 0.11
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5ac18"]
-graph_offset = Vector2(-505.113, -57.3074)
+graph_offset = Vector2(-445.572, -147.468)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_6apjh")
 nodes/Animation/position = Vector2(-40, 260)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_lpbh6")
@@ -203,7 +245,7 @@ nodes/Dead/position = Vector2(120, 140)
 nodes/Falling/node = SubResource("AnimationNodeBlendSpace1D_pnnhc")
 nodes/Falling/position = Vector2(-200, -20)
 nodes/Grounded/node = SubResource("AnimationNodeTransition_0xcc6")
-nodes/Grounded/position = Vector2(-40, 60)
+nodes/Grounded/position = Vector2(-40, 100)
 nodes/GroundedState/node = SubResource("AnimationNodeTransition_c6pyk")
 nodes/GroundedState/position = Vector2(-380, 120)
 nodes/Landed/node = SubResource("AnimationNodeOneShot_wgogu")
@@ -235,27 +277,36 @@ color_ramp = SubResource("GradientTexture1D_0fpvi")
 anim_offset_min = 0.6
 anim_offset_max = 1.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_gov3n"]
+font_size = 8
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-floor_constant_speed = true
+slide_on_ceiling = false
+floor_max_angle = 0.392699
 safe_margin = 0.1
 script = ExtResource("1_xsm3d")
-jumpVelocity = -115.0
-jumpGravityScale = 0.7
-jumpCancelGravityScale = 1.5
-jumpCancelStrenght = 0.3
-airAcceleration = 250.0
-airDamping = 0.2
+jumpVelocity = -120.0
+jumpGravity = 200.0
+jumpCancelGravity = 400.0
+jumpCancelStrenght = 0.25
 groundAcceleration = 350.0
-groundDamping = 0.35
-groundStopDamping = 0.494
+groundDamping = 0.3
+groundStopDamping = 0.65
+airAcceleration = 260.0
+airDamping = 0.2
+airStopDamping = 0.15
+
+[node name="StateMachine" parent="." instance=ExtResource("6_j50qi")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_ia4sn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0.0218811, 6.73784)
 texture = ExtResource("2_1yd4d")
+offset = Vector2(-0.0218811, -6.73784)
 hframes = 3
 vframes = 2
 frame = 1
@@ -269,19 +320,20 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendTree_5ac18")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/Dead/current = 1
-parameters/Falling/blend_position = 0.022999
-parameters/Grounded/current = 1
-parameters/GroundedState/current = 1
+parameters/Dead/current = 0
+parameters/Falling/blend_position = 0.368151
+parameters/Grounded/current = 0
+parameters/GroundedState/current = 0
 parameters/Landed/active = false
 
-[node name="DustParticles" type="Node2D" parent="."]
+[node name="DustParticles" type="CanvasGroup" parent="."]
 show_behind_parent = true
 
 [node name="RunParticles" type="GPUParticles2D" parent="DustParticles"]
 modulate = Color(0.34902, 0.541176, 0.498039, 1)
 material = ExtResource("3_dwyti")
 position = Vector2(0, 8)
+emitting = false
 process_material = SubResource("ParticleProcessMaterial_t6au8")
 texture = ExtResource("4_ki6bk")
 lifetime = 0.9
@@ -331,3 +383,18 @@ fixed_fps = 24
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false
 current = true
+
+[node name="StateLabel" type="Label" parent="."]
+visible = false
+offset_left = -34.7278
+offset_top = -32.4265
+offset_right = 35.2722
+offset_bottom = -6.42651
+text = " nmb nm"
+label_settings = SubResource("LabelSettings_gov3n")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GroundRememberTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

@@ -135,9 +135,11 @@ namespace Godot
                 .Append("    /// </summary>\n")
                 .Append("    /// <returns>A <typeparamref name=\"TSignalEmitter\"/> ready to call <see langword=\"Emit\"/> on.</returns>\n")
                 .Append("    public TSignalEmitter GetEmitter<TSignalEmitter>()\n")
-                .Append("        where TSignalEmitter : ISignalEmitter, new()\n")
+                .Append("        where TSignalEmitter : struct, ISignalEmitter\n")
                 .Append("    {\n")
-                .Append("        return new TSignalEmitter() { Bound = this };\n")
+                .Append("        var signalEmitter = default(TSignalEmitter);")
+                .Append("        signalEmitter.Bound = this;\n")
+                .Append("        return signalEmitter;")
                 .Append("    }\n");
         }
 
@@ -165,7 +167,7 @@ namespace Godot
                 .Append(" : ISignalEmitter\n")
                 .Append("        {\n");
 
-            source.Append("            public Object Bound { get; set; }\n");
+            source.Append("            public Godot.Object Bound { get; set; }\n");
 
             // Generate Emit method
 

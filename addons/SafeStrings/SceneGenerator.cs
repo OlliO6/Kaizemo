@@ -19,6 +19,17 @@ public class SceneGenerator
         watcher.EnableRaisingEvents = true;
         watcher.IncludeSubdirectories = true;
 
+        watcher.Filter = "*.tscn";
+
+        watcher.NotifyFilter = NotifyFilters.Attributes
+                                | NotifyFilters.CreationTime
+                                | NotifyFilters.DirectoryName
+                                | NotifyFilters.FileName
+                                | NotifyFilters.LastAccess
+                                | NotifyFilters.LastWrite
+                                | NotifyFilters.Security
+                                | NotifyFilters.Size;
+
         watcher.Created += OnSceneChanged;
         watcher.Changed += OnSceneChanged;
 
@@ -46,6 +57,9 @@ public class SceneGenerator
 
     private void OnSceneChanged(object sender, FileSystemEventArgs e)
     {
+        if (e.Name == null)
+            return;
+
         UpdateScene(ProjectSettings.LocalizePath(e.FullPath));
     }
 
@@ -112,11 +126,8 @@ public class SceneGenerator
             .AppendLine("{");
 
         // Add Instantiate method
-        sourceBuilder.Append("    public static ");
-        if (classNamespace != "")
-            sourceBuilder.Append(classNamespace)
-                .Append(".");
-        sourceBuilder.Append(className)
+        sourceBuilder.Append("    public static ")
+            .Append(className)
             .AppendLine(" Instantiate()")
             .AppendLine("    {")
             .Append("        var val = SafeStrings.")
@@ -145,32 +156,21 @@ public class SceneGenerator
 
         sourceBuilder.AppendLine("}");
 
-        File.WriteAllText($"addons/SafeStrings/Generated/Scenes/{(classNamespace == "" ? className : $"{classNamespace}.{className}")}_Scene.g.cs", sourceBuilder.ToString());
+        File.WriteAllText($"{Settings.GlobalRootPath}/addons/SafeStrings/Generated/Scenes/{(classNamespace == "" ? className : $"{classNamespace}.{className}")}_Scene.g.cs", sourceBuilder.ToString());
 
         void AppendNode(int idx)
         {
             bool isUnique = false;
-            string type = "";
+            string type = GetNodeType(idx, sceneState);
 
             for (int i = 0; i < sceneState.GetNodePropertyCount(idx); i++)
             {
-                string propName = sceneState.GetNodePropertyName(idx, i);
-
-                if (propName == "unique_name_in_owner")
+                if (sceneState.GetNodePropertyName(idx, i) == "unique_name_in_owner" && sceneState.GetNodePropertyValue(idx, i).AsBool())
                 {
                     isUnique = true;
-                    continue;
-                }
-
-                if (propName == "script")
-                {
-                    type = Utils.GetCsFullNameFromScript((CSharpScript)sceneState.GetNodePropertyValue(idx, i));
-                    continue;
+                    break;
                 }
             }
-
-            if (type == "")
-                type = "Godot." + sceneState.GetNodeType(idx);
 
             string nodeName = sceneState.GetNodeName(idx);
             string path = sceneState.GetNodePath(idx);
@@ -232,6 +232,29 @@ public class SceneGenerator
 
             uniqueSceneBuilder.AppendLine("}");
         }
+    }
+
+    private string GetNodeType(int idx, SceneState sceneState)
+    {
+        for (int i = 0; i < sceneState.GetNodePropertyCount(idx); i++)
+        {
+            string propName = sceneState.GetNodePropertyName(idx, i);
+
+            if (propName == "script")
+                return Utils.GetCsFullNameFromScript((CSharpScript)sceneState.GetNodePropertyValue(idx, i));
+        }
+
+        string stateType = sceneState.GetNodeType(idx);
+
+        if (stateType is not "" and not null)
+            return "Godot." + stateType;
+
+        PackedScene instancedScene = sceneState.GetNodeInstance(idx);
+
+        if (instancedScene == null)
+            return "Godot.Node";
+
+        return GetNodeType(0, instancedScene.GetState());
     }
 }
 

@@ -60,7 +60,7 @@ public partial class Plugin : EditorPlugin
                     break;
 
                 case GenerateRelUsingToolItemId:
-                    RelUsingGenerator.GenerateRelUsing(GetEditorInterface().GetCurrentPath().TrimPrefix("res://"));
+                    RelUsingGenerator.GenerateRelUsing(ProjectSettings.GlobalizePath(GetEditorInterface().GetCurrentPath()));
                     break;
 
                 case AssociateSceneToScriptToolItemId:
