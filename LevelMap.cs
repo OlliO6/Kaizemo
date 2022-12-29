@@ -1,6 +1,6 @@
 using System;
 using Godot;
-using PlayerBehaviour;
+using Game.PlayerBehaviour;
 
 public partial class LevelMap : TileMap
 {

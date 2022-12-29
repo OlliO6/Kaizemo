@@ -3,7 +3,7 @@ using Godot;
 
 public partial class InputManager : Node
 {
-    const float JumpBufferTime = 0.1f;
+    const float JumpBufferTime = 0.125f;
 
     public static InputManager Instance { get; private set; }
 

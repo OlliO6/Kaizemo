@@ -1,19 +1,36 @@
-[gd_scene load_steps=31 format=3 uid="uid://8gmudkqaoa0f"]
+[gd_scene load_steps=53 format=3 uid="uid://bccyvvc3yil0c"]
 
 [ext_resource type="Script" path="res://Game/Player/Player.cs" id="1_xsm3d"]
-[ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Game/Player/Player.png" id="2_1yd4d"]
+[ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Game/Player/player.png" id="3_cbng3"]
 [ext_resource type="Material" uid="uid://chpjvmi5swcvg" path="res://Particles/Dust/DustParticles.material" id="3_dwyti"]
+[ext_resource type="Script" path="res://Game/Player/PlayerAnimationTree.cs" id="4_16t00"]
 [ext_resource type="Texture2D" uid="uid://nftcffrmb84v" path="res://Particles/Dust/DustParticle.png" id="4_ki6bk"]
-[ext_resource type="PackedScene" uid="uid://cohbobyhnvk2l" path="res://Components/StateMachine/StateMachine.tscn" id="6_j50qi"]
+[ext_resource type="PackedScene" path="res://Game/Common/Components/StateMachine/StateMachine.tscn" id="6_j50qi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
 size = Vector2(7, 15)
+
+[sub_resource type="Animation" id="Animation_y4ftr"]
+resource_name = "CancelJump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
 
 [sub_resource type="Animation" id="Animation_vgf0n"]
 resource_name = "Die"
 
 [sub_resource type="Animation" id="Animation_tvs37"]
 resource_name = "Fall"
+length = 0.001
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -32,6 +49,7 @@ tracks/0/keys = {
 resource_name = "Idle"
 length = 2.0
 loop_mode = 1
+step = 0.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -39,10 +57,10 @@ tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.001, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [1, 2]
+"values": [1, 1, 2]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -71,6 +89,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_04f6t"]
 resource_name = "Jump"
+length = 0.001
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -171,6 +191,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8m1qr"]
 _data = {
+"CancelJump": SubResource("Animation_y4ftr"),
 "Die": SubResource("Animation_vgf0n"),
 "Fall": SubResource("Animation_tvs37"),
 "Idle": SubResource("Animation_k4shk"),
@@ -180,82 +201,125 @@ _data = {
 "Run": SubResource("Animation_h6l71")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lpbh6"]
-animation = &"Land"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3i8a3"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bmoag"]
 animation = &"Idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gxy1d"]
-animation = &"Run"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6apjh"]
-animation = &"Die"
-
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_cq8kp"]
-enabled_inputs = 2
-input_0/name = "No"
-input_0/auto_advance = false
-input_1/name = "Yes"
-input_1/auto_advance = false
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5bl2q"]
-animation = &"Jump"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pun85"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4mnyv"]
 animation = &"Fall"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_pnnhc"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_5bl2q")
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_pun85")
-blend_point_1/pos = 1.0
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pr7qb"]
+animation = &"Jump"
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_0xcc6"]
-enabled_inputs = 2
-input_0/name = "No"
-input_0/auto_advance = false
-input_1/name = "Yes"
-input_1/auto_advance = false
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_si1g2"]
+advance_mode = 2
 
-[sub_resource type="AnimationNodeTransition" id="AnimationNodeTransition_c6pyk"]
-enabled_inputs = 2
-input_0/name = "Idle"
-input_0/auto_advance = false
-input_1/name = "Run"
-input_1/auto_advance = false
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_o7nff"]
 
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_wgogu"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5joda"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vqecs"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mgl50"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_5dxxd"]
+states/CancelJump/node = SubResource("AnimationNodeAnimation_bmoag")
+states/CancelJump/position = Vector2(425, 230)
+states/Fall/node = SubResource("AnimationNodeAnimation_4mnyv")
+states/Fall/position = Vector2(329, 100)
+states/Jump/node = SubResource("AnimationNodeAnimation_pr7qb")
+states/Jump/position = Vector2(530, 100)
+transitions = ["Start", "Fall", SubResource("AnimationNodeStateMachineTransition_si1g2"), "Fall", "Jump", SubResource("AnimationNodeStateMachineTransition_o7nff"), "Jump", "Fall", SubResource("AnimationNodeStateMachineTransition_5joda"), "Jump", "CancelJump", SubResource("AnimationNodeStateMachineTransition_vqecs"), "CancelJump", "Fall", SubResource("AnimationNodeStateMachineTransition_mgl50")]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j3i37"]
+graph_offset = Vector2(-184, -59)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_5dxxd")
+nodes/StateMachine/position = Vector2(100, 100)
+node_connections = [&"output", 0, &"StateMachine"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ti34f"]
+animation = &"Land"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_h5kmy"]
+sync = true
 mix_mode = 1
-fadein_time = 0.09
-fadeout_time = 0.11
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5ac18"]
-graph_offset = Vector2(-445.572, -147.468)
-nodes/Animation/node = SubResource("AnimationNodeAnimation_6apjh")
-nodes/Animation/position = Vector2(-40, 260)
-"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_lpbh6")
-"nodes/Animation 2/position" = Vector2(-360, 300)
-"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_3i8a3")
-"nodes/Animation 3/position" = Vector2(-540, 100)
-"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_gxy1d")
-"nodes/Animation 4/position" = Vector2(-540, 220)
-nodes/Dead/node = SubResource("AnimationNodeTransition_cq8kp")
-nodes/Dead/position = Vector2(120, 140)
-nodes/Falling/node = SubResource("AnimationNodeBlendSpace1D_pnnhc")
-nodes/Falling/position = Vector2(-200, -20)
-nodes/Grounded/node = SubResource("AnimationNodeTransition_0xcc6")
-nodes/Grounded/position = Vector2(-40, 100)
-nodes/GroundedState/node = SubResource("AnimationNodeTransition_c6pyk")
-nodes/GroundedState/position = Vector2(-380, 120)
-nodes/Landed/node = SubResource("AnimationNodeOneShot_wgogu")
-nodes/Landed/position = Vector2(-200, 160)
-nodes/output/position = Vector2(260, 180)
-node_connections = [&"output", 0, &"Dead", &"Dead", 0, &"Grounded", &"Dead", 1, &"Animation", &"Grounded", 0, &"Falling", &"Grounded", 1, &"Landed", &"GroundedState", 0, &"Animation 3", &"GroundedState", 1, &"Animation 4", &"Landed", 0, &"GroundedState", &"Landed", 1, &"Animation 2"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lk03t"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f606h"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0apq8"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ftmpm"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iquvm"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_o6jnu"]
+states/Idle/node = SubResource("AnimationNodeAnimation_lk03t")
+states/Idle/position = Vector2(339, 100)
+states/Run/node = SubResource("AnimationNodeAnimation_f606h")
+states/Run/position = Vector2(446, 100)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_0apq8"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_ftmpm"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_iquvm")]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nyo7w"]
+graph_offset = Vector2(-376, -30)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_ti34f")
+nodes/Animation/position = Vector2(-60, 240)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_h5kmy")
+nodes/OneShot/position = Vector2(120, 140)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_o6jnu")
+nodes/StateMachine/position = Vector2(-60, 100)
+node_connections = [&"output", 0, &"OneShot", &"OneShot", 0, &"StateMachine", &"OneShot", 1, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4shb1"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1yjoo"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_e0gef"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_s4mur"]
+states/InAir/node = SubResource("AnimationNodeBlendTree_j3i37")
+states/InAir/position = Vector2(514.645, 100)
+states/OnGround/node = SubResource("AnimationNodeBlendTree_nyo7w")
+states/OnGround/position = Vector2(348.645, 100)
+transitions = ["Start", "OnGround", SubResource("AnimationNodeStateMachineTransition_4shb1"), "OnGround", "InAir", SubResource("AnimationNodeStateMachineTransition_1yjoo"), "InAir", "OnGround", SubResource("AnimationNodeStateMachineTransition_e0gef")]
+graph_offset = Vector2(-72.3551, -67.6775)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ue5vn"]
+animation = &"Die"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yagkw"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4b3jr"]
+advance_mode = 2
+advance_condition = &"IsDead"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ibfwh"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_otx57"]
+states/Alive/node = SubResource("AnimationNodeStateMachine_s4mur")
+states/Alive/position = Vector2(331, 100)
+states/Die/node = SubResource("AnimationNodeAnimation_ue5vn")
+states/Die/position = Vector2(454, 100)
+states/End/position = Vector2(571, 100)
+transitions = ["Start", "Alive", SubResource("AnimationNodeStateMachineTransition_yagkw"), "Alive", "Die", SubResource("AnimationNodeStateMachineTransition_4b3jr"), "Die", "End", SubResource("AnimationNodeStateMachineTransition_ibfwh")]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_4547r"]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_65bdv"]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_6450m"]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_vqavs"]
 
 [sub_resource type="Gradient" id="Gradient_jg124"]
-offsets = PackedFloat32Array(0, 0.509225, 1)
-colors = PackedColorArray(0.97417, 0.97417, 0.97417, 1, 0.927438, 0.927438, 0.927438, 1, 0.99, 0.99, 0.99, 0)
+offsets = PackedFloat32Array(0, 0.107023, 0.509225, 1)
+colors = PackedColorArray(0.99, 0.99, 0.99, 0, 0.97417, 0.97417, 0.97417, 1, 0.927438, 0.927438, 0.927438, 1, 0.99, 0.99, 0.99, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_0fpvi"]
 gradient = SubResource("Gradient_jg124")
@@ -283,30 +347,30 @@ font_size = 8
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 slide_on_ceiling = false
-floor_max_angle = 0.392699
-safe_margin = 0.1
+safe_margin = 0.001
 script = ExtResource("1_xsm3d")
 jumpVelocity = -120.0
 jumpGravity = 200.0
-jumpCancelGravity = 400.0
+jumpCancelGravity = 315.0
 jumpCancelStrenght = 0.25
-groundAcceleration = 350.0
-groundDamping = 0.3
-groundStopDamping = 0.65
-airAcceleration = 260.0
+groundAcceleration = 460.0
+groundDamping = 0.35
+groundStopDamping = 0.55
+airAcceleration = 245.0
 airDamping = 0.2
-airStopDamping = 0.15
+airStopDamping = 0.12
 
 [node name="StateMachine" parent="." instance=ExtResource("6_j50qi")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_ia4sn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(0.0218811, 6.73784)
-texture = ExtResource("2_1yd4d")
-offset = Vector2(-0.0218811, -6.73784)
+position = Vector2(0, 8)
+texture = ExtResource("3_cbng3")
+offset = Vector2(0, -8)
 hframes = 3
 vframes = 2
 frame = 1
@@ -317,55 +381,92 @@ libraries = {
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeBlendTree_5ac18")
+tree_root = SubResource("AnimationNodeStateMachine_otx57")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/Dead/current = 0
-parameters/Falling/blend_position = 0.368151
-parameters/Grounded/current = 0
-parameters/GroundedState/current = 0
-parameters/Landed/active = false
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_4547r")
+parameters/conditions/IsDead = false
+parameters/Alive/playback = SubResource("AnimationNodeStateMachinePlayback_65bdv")
+parameters/Alive/InAir/StateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_6450m")
+parameters/Alive/OnGround/OneShot/active = false
+parameters/Alive/OnGround/StateMachine/playback = SubResource("AnimationNodeStateMachinePlayback_vqavs")
+script = ExtResource("4_16t00")
 
 [node name="DustParticles" type="CanvasGroup" parent="."]
 show_behind_parent = true
 
-[node name="RunParticles" type="GPUParticles2D" parent="DustParticles"]
+[node name="RunParticles" type="CPUParticles2D" parent="DustParticles"]
+modulate = Color(0.34902, 0.541176, 0.498039, 1)
+material = ExtResource("3_dwyti")
+position = Vector2(0, 8.08)
+emitting = false
+amount = 10
+explosiveness = 0.06
+randomness = 0.34
+lifetime_randomness = 0.41
+fixed_fps = 24
+draw_order = 1
+texture = ExtResource("4_ki6bk")
+emission_shape = 3
+emission_rect_extents = Vector2(1.5, 0.2)
+direction = Vector2(-1, 0)
+spread = 5.0
+gravity = Vector2(0, -50)
+initial_velocity_min = 4.0
+initial_velocity_max = 5.5
+damping_min = 48.0
+damping_max = 52.0
+color_ramp = SubResource("Gradient_jg124")
+anim_offset_min = 0.6
+anim_offset_max = 1.0
+
+[node name="JumpParticles" type="CPUParticles2D" parent="DustParticles"]
 modulate = Color(0.34902, 0.541176, 0.498039, 1)
 material = ExtResource("3_dwyti")
 position = Vector2(0, 8)
 emitting = false
-process_material = SubResource("ParticleProcessMaterial_t6au8")
-texture = ExtResource("4_ki6bk")
-lifetime = 0.9
-explosiveness = 0.08
-randomness = 0.34
+amount = 3
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 0.3
 fixed_fps = 24
+draw_order = 1
+texture = ExtResource("4_ki6bk")
+direction = Vector2(0, 1)
+spread = 90.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 24.0
+damping_min = 48.0
+damping_max = 52.0
+color_ramp = SubResource("Gradient_jg124")
+anim_offset_max = 0.8
 
-[node name="JumpParticles" type="GPUParticles2D" parent="DustParticles"]
-visible = false
+[node name="LandParticles" type="CPUParticles2D" parent="DustParticles"]
 modulate = Color(0.34902, 0.541176, 0.498039, 1)
 material = ExtResource("3_dwyti")
 position = Vector2(0, 8)
+emitting = false
 amount = 5
-process_material = SubResource("ParticleProcessMaterial_t6au8")
-texture = ExtResource("4_ki6bk")
-lifetime = 0.9
-explosiveness = 0.08
-randomness = 0.34
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 0.3
 fixed_fps = 24
-
-[node name="LandParticles" type="GPUParticles2D" parent="DustParticles"]
-visible = false
-modulate = Color(0.34902, 0.541176, 0.498039, 1)
-material = ExtResource("3_dwyti")
-position = Vector2(0, 8)
-amount = 5
-process_material = SubResource("ParticleProcessMaterial_t6au8")
+draw_order = 1
 texture = ExtResource("4_ki6bk")
-lifetime = 0.9
-explosiveness = 0.08
-randomness = 0.34
-fixed_fps = 24
+direction = Vector2(0, -1)
+spread = 80.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 18.0
+initial_velocity_max = 22.0
+damping_min = 48.0
+damping_max = 52.0
+color_ramp = SubResource("Gradient_jg124")
+anim_offset_max = 0.8
 
 [node name="DiveParticles" type="GPUParticles2D" parent="DustParticles"]
 visible = false
@@ -396,5 +497,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GroundRememberTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.125
 one_shot = true

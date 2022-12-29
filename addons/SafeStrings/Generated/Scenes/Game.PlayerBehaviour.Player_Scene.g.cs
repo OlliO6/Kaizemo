@@ -1,9 +1,9 @@
-namespace PlayerBehaviour;
+namespace Game.PlayerBehaviour;
 partial class Player : SafeStrings.IScene<Player>
 {
     public static Player Instantiate()
     {
-        var val = SafeStrings.Res.Game.Player.player_tscn.Value.Instantiate<Player>();
+        var val = SafeStrings.Res.Game.Player.Player_tscn.Value.Instantiate<Player>();
         ((SafeStrings.IScene<Player>)val).OnInstanced();
         return val;
     }
@@ -35,9 +35,9 @@ partial class Player : SafeStrings.IScene<Player>
         }
         public static partial class AnimationTree
         {
-            public static SafeStrings.SceneNodePath<Godot.AnimationTree> Path = "./AnimationTree";
-            public static Godot.AnimationTree Get(Godot.Node root) => Path.Get(root);
-            public static Godot.AnimationTree GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Game.PlayerBehaviour.PlayerAnimationTree> Path = "./AnimationTree";
+            public static Game.PlayerBehaviour.PlayerAnimationTree Get(Godot.Node root) => Path.Get(root);
+            public static Game.PlayerBehaviour.PlayerAnimationTree GetCached(Godot.Node root) => Path.GetCached(root);
         }
         public static partial class DustParticles
         {
@@ -47,21 +47,21 @@ partial class Player : SafeStrings.IScene<Player>
         }
         partial class DustParticles { public static partial class RunParticles
         {
-            public static SafeStrings.SceneNodePath<Godot.GPUParticles2D> Path = "./DustParticles/RunParticles";
-            public static Godot.GPUParticles2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.GPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Godot.CPUParticles2D> Path = "./DustParticles/RunParticles";
+            public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
         partial class DustParticles { public static partial class JumpParticles
         {
-            public static SafeStrings.SceneNodePath<Godot.GPUParticles2D> Path = "./DustParticles/JumpParticles";
-            public static Godot.GPUParticles2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.GPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Godot.CPUParticles2D> Path = "./DustParticles/JumpParticles";
+            public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
         partial class DustParticles { public static partial class LandParticles
         {
-            public static SafeStrings.SceneNodePath<Godot.GPUParticles2D> Path = "./DustParticles/LandParticles";
-            public static Godot.GPUParticles2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.GPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Godot.CPUParticles2D> Path = "./DustParticles/LandParticles";
+            public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
         partial class DustParticles { public static partial class DiveParticles
         {

@@ -6,29 +6,35 @@ public static class Res
     public static readonly ResourcePath<Godot.CompressedTexture2D> Platform_png = "res://Platform.png";
     public static readonly ResourcePath<Godot.PackedScene> Playground_tscn = "res://Playground.tscn";
     public static readonly ResourcePath<Godot.PackedScene> gbuizkhb_tscn = "res://gbuizkhb.tscn";
-    public static class Components
-    {
-        public static class StateMachine
-        {
-            public static readonly ResourcePath<Godot.CSharpScript> IState_cs = "res://Components/StateMachine/IState.cs";
-            public static readonly ResourcePath<Godot.CSharpScript> ProcessCallbackDelegate_cs = "res://Components/StateMachine/ProcessCallbackDelegate.cs";
-            public static readonly ResourcePath<Godot.CSharpScript> State_cs = "res://Components/StateMachine/State.cs";
-            public static readonly ResourcePath<Godot.CSharpScript> StateMachine_cs = "res://Components/StateMachine/StateMachine.cs";
-            public static readonly ResourcePath<Godot.PackedScene> StateMachine_tscn = "res://Components/StateMachine/StateMachine.tscn";
-        }
-    }
     public static class Game
     {
+        public static class Common
+        {
+            public static class Components
+            {
+                public static class StateMachine
+                {
+                    public static readonly ResourcePath<Godot.CSharpScript> IState_cs = "res://Game/Common/Components/StateMachine/IState.cs";
+                    public static readonly ResourcePath<Godot.CSharpScript> ProcessCallbackDelegate_cs = "res://Game/Common/Components/StateMachine/ProcessCallbackDelegate.cs";
+                    public static readonly ResourcePath<Godot.CSharpScript> State_cs = "res://Game/Common/Components/StateMachine/State.cs";
+                    public static readonly ResourcePath<Godot.CSharpScript> StateMachine_cs = "res://Game/Common/Components/StateMachine/StateMachine.cs";
+                    public static readonly ResourcePath<Godot.PackedScene> StateMachine_tscn = "res://Game/Common/Components/StateMachine/StateMachine.tscn";
+                }
+            }
+        }
         public static class DiveSpender
         {
+            public static readonly ResourcePath<Godot.CSharpScript> DiveSpender_cs = "res://Game/DiveSpender/DiveSpender.cs";
+            public static readonly ResourcePath<Godot.PackedScene> DiveSpender_tscn = "res://Game/DiveSpender/DiveSpender.tscn";
         }
         public static class Player
         {
             public static readonly ResourcePath<Godot.CSharpScript> Player_cs = "res://Game/Player/Player.cs";
-            public static readonly ResourcePath<Godot.CompressedTexture2D> Player_png = "res://Game/Player/Player.png";
+            public static readonly ResourcePath<Godot.PackedScene> Player_tscn = "res://Game/Player/Player.tscn";
+            public static readonly ResourcePath<Godot.CSharpScript> PlayerAnimationTree_cs = "res://Game/Player/PlayerAnimationTree.cs";
             public static readonly ResourcePath<Godot.CSharpScript> PlayerOld_cs = "res://Game/Player/PlayerOld.cs";
             public static readonly ResourcePath<Godot.CSharpScript> PlayerWeird_cs = "res://Game/Player/PlayerWeird.cs";
-            public static readonly ResourcePath<Godot.PackedScene> player_tscn = "res://Game/Player/player.tscn";
+            public static readonly ResourcePath<Godot.CompressedTexture2D> player_png = "res://Game/Player/player.png";
         }
     }
     public static class Particles

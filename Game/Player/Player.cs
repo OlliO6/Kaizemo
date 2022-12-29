@@ -1,13 +1,12 @@
-namespace PlayerBehaviour;
+namespace Game.PlayerBehaviour;
 
 using Godot;
 using System;
-using Additions;
 using StateMachines;
 
 public partial class Player : CharacterBody2D
 {
-    public enum StateId { Idle, Run, Fall, Jump, CancelJump }
+    public enum StateId { Idle, Run, Fall, Jump, CancelJump, Dead }
 
     public enum StateTag { OnGround, InAir, AirHorizontalMovement }
 
@@ -35,7 +34,7 @@ public partial class Player : CharacterBody2D
 
     public StateMachine StateMachine => this.GetSceneNodeCached(Scene.StateMachine.Path);
     public Timer GroundRememberTimr => this.GetSceneNodeCached(Scene.GroundRememberTimer.Path);
-    public AnimationTree AnimationTree => this.GetSceneNodeCached(Scene.AnimationTree.Path);
+    public PlayerAnimationTree AnimTree => this.GetSceneNodeCached(Scene.AnimationTree.Path);
 
     public bool FaceLeft
     {
@@ -58,7 +57,7 @@ public partial class Player : CharacterBody2D
     {
         StateMachine.AddState(StateId.Idle)
             .WithTag(StateTag.OnGround)
-            .WithEnterCallback(() => AnimationTree.Set("parameters/GroundedState/current", AnimationTreeGroundedStateIdle), true)
+            .WithEnterCallback(() => AnimTree.OnGroundPlayback.Travel("Idle"))
             .WithPhysicsProcessCallback((_) => StateMachine.SwitchStateIf(StateId.Fall, !IsOnFloor()), true)
             .WithPhysicsProcessCallback((delta) =>
             {
@@ -70,8 +69,8 @@ public partial class Player : CharacterBody2D
 
         StateMachine.AddState(StateId.Run)
             .WithTag(StateTag.OnGround)
+            .WithEnterCallback(() => AnimTree.OnGroundPlayback.Travel("Run"))
             .WithEnterCallback(() => this.GetSceneNodeCached(Scene.DustParticles.RunParticles.Path).Emitting = true)
-            .WithEnterCallback(() => AnimationTree.Set("parameters/GroundedState/current", AnimationTreeGroundedStateRun), true)
             .WithPhysicsProcessCallback((_) => StateMachine.SwitchStateIf(StateId.Fall, !IsOnFloor()), true)
             .WithPhysicsProcessCallback((delta) =>
             {
@@ -82,10 +81,13 @@ public partial class Player : CharacterBody2D
             })
             .WithExitCallback(() => this.GetSceneNodeCached(Scene.DustParticles.RunParticles.Path).Emitting = false);
 
+        StateMachine.AddState(StateId.Dead)
+            .WithEnterCallback(() => AnimTree.IsDead = true);
 
         StateMachine.AddState(StateId.Fall)
             .WithTag(StateTag.InAir)
             .WithTag(StateTag.AirHorizontalMovement)
+            .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Fall"))
             .WithEnterCallback(() =>
             {
                 if (StateMachine.PreviousState.HasTag(StateTag.OnGround))
@@ -102,6 +104,8 @@ public partial class Player : CharacterBody2D
         StateMachine.AddState(StateId.Jump)
             .WithTag(StateTag.InAir)
             .WithTag(StateTag.AirHorizontalMovement)
+            .WithEnterCallback(() => this.GetSceneNodeCached(Scene.DustParticles.JumpParticles.Path).Restart())
+            .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Jump"))
             .WithPhysicsProcessCallback((delta) => ApplyGravity(delta, jumpGravity))
             .WithPhysicsProcessCallback((_) => StateMachine.SwitchStateIf(StateId.CancelJump, !InputManager.IsHoldingJump))
             .WithPhysicsProcessCallback((_) => StateMachine.SwitchStateIf(StateId.Fall, Velocity.y > 0));
@@ -109,6 +113,7 @@ public partial class Player : CharacterBody2D
         StateMachine.AddState(StateId.CancelJump)
             .WithTag(StateTag.InAir)
             .WithTag(StateTag.AirHorizontalMovement)
+            .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("CancelJump"))
             .WithEnterCallback(() => this.SetVelocityY(Velocity.y * (1 - jumpCancelStrenght)))
             .WithPhysicsProcessCallback((delta) => ApplyGravity(delta, jumpCancelGravity))
             .WithPhysicsProcessCallback((_) => StateMachine.SwitchStateIf(StateId.Fall, Velocity.y > 0));
@@ -123,8 +128,6 @@ public partial class Player : CharacterBody2D
 
         StateMachine.WithPhysicsProcessTagCallback(StateTag.InAir, (_) =>
         {
-            AnimationTree.Set("parameters/Falling/blend_position", Velocity.y);
-
             if (IsOnFloor())
                 StateMachine.SwitchToState(StateId.Idle);
         }, true);
@@ -134,18 +137,18 @@ public partial class Player : CharacterBody2D
 
         StateMachine.WithEnterTagCallback(StateTag.OnGround, () =>
         {
-            AnimationTree.Set("parameters/Grounded/current", 1);
+            AnimTree.AlivePlayback.Travel("OnGround");
 
             if (StateMachine.PreviousState?.Id.Equals(StateId.Fall) ?? false)
             {
-                AnimationTree.Set("parameters/Landed/active", true);
+                AnimTree.SetDeferred(PlayerAnimationTree.PropertyName.LandActive, true);
                 this.GetSceneNodeCached(Scene.DustParticles.LandParticles.Path).Restart();
             }
         });
 
         StateMachine.WithEnterTagCallback(StateTag.InAir, () =>
         {
-            AnimationTree.Set("parameters/Grounded/current", 0);
+            AnimTree.AlivePlayback.Travel("InAir");
         });
 
         StateMachine.PhysicsProcessApplied += (delta) =>
@@ -174,14 +177,19 @@ public partial class Player : CharacterBody2D
             FaceLeft = true;
     }
 
+    public override void _Process(double delta)
+    {
+        Scene.StateLabel.GetCached(this).Text = StateMachine.GetCurrentStateAsString(true);
+    }
+
     private void Jump()
     {
         this.SetVelocityY(jumpVelocity);
         StateMachine.SwitchToState(StateId.Jump);
     }
 
-    public override void _Process(double delta)
+    public void Die()
     {
-        Scene.StateLabel.GetCached(this).Text = StateMachine.GetCurrentStateAsString(true);
+        StateMachine.SwitchToState(StateId.Dead);
     }
 }
