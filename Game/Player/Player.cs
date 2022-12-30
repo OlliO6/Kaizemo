@@ -46,7 +46,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     private bool _faceLeft;
 
-    public StateMachine MainStateMachine => Scene.StateMachine.GetCached(this);
+    public StateMachine MainStateMachine => Scene.MainStateMachine.GetCached(this);
     public StateMachine LoadAbilityStateMachine => Scene.LoadAbilityStateMachine.GetCached(this);
     public Timer GroundRememberTimr => Scene.GroundRememberTimer.GetCached(this);
     public PlayerAnimationTree AnimTree => Scene.AnimationTree.GetCached(this);

@@ -9,9 +9,9 @@ partial class Player : SafeStrings.IScene<Player>
     }
     public static class Scene
     {
-        public static partial class StateMachine
+        public static partial class MainStateMachine
         {
-            public static SafeStrings.SceneNodePath<StateMachines.StateMachine> Path = "./StateMachine";
+            public static SafeStrings.SceneNodePath<StateMachines.StateMachine> Path = "./MainStateMachine";
             public static StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
             public static StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
         }

@@ -355,7 +355,7 @@ diveLeftVelocity = Vector2(-220, -50)
 diveRightVelocity = Vector2(220, -50)
 diveOutlineColor = Color(1.86, 0.48, 2.13, 1)
 
-[node name="StateMachine" parent="." instance=ExtResource("6_j50qi")]
+[node name="MainStateMachine" parent="." instance=ExtResource("6_j50qi")]
 
 [node name="LoadAbilityStateMachine" parent="." instance=ExtResource("6_j50qi")]
 
