@@ -3,11 +3,14 @@ using Godot;
 
 public partial class InputManager : Node
 {
-    const float JumpBufferTime = 0.125f;
+    public enum ActionDirection { Up, Down, Left, Right }
+
+    const float JumpBufferTime = 0.1f;
 
     public static InputManager Instance { get; private set; }
 
     public static event Action JumpPressed, JumpReleased, PausePressed;
+    public static event Action<ActionDirection> ActionPressed;
 
     public static bool IsJumpBuffered => Instance.jumpBufferTimer.TimeLeft != 0 && !Instance.jumpBufferTimer.IsStopped();
     public static bool IsHoldingJump => Input.IsActionPressed(InputAction.Jump);
@@ -50,6 +53,30 @@ public partial class InputManager : Node
                 return;
             }
             JumpReleased?.Invoke();
+            return;
+        }
+
+        if (@event.IsActionPressed(InputAction.ActionUp))
+        {
+            ActionPressed?.Invoke(ActionDirection.Up);
+            return;
+        }
+
+        if (@event.IsActionPressed(InputAction.ActionDown))
+        {
+            ActionPressed?.Invoke(ActionDirection.Down);
+            return;
+        }
+
+        if (@event.IsActionPressed(InputAction.ActionLeft))
+        {
+            ActionPressed?.Invoke(ActionDirection.Left);
+            return;
+        }
+
+        if (@event.IsActionPressed(InputAction.ActionRight))
+        {
+            ActionPressed?.Invoke(ActionDirection.Right);
             return;
         }
 

@@ -15,6 +15,12 @@ partial class Player : SafeStrings.IScene<Player>
             public static StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
             public static StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
         }
+        public static partial class LoadAbilityStateMachine
+        {
+            public static SafeStrings.SceneNodePath<StateMachines.StateMachine> Path = "./LoadAbilityStateMachine";
+            public static StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
+            public static StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
+        }
         public static partial class CollisionShape2D
         {
             public static SafeStrings.SceneNodePath<Godot.CollisionShape2D> Path = "./CollisionShape2D";
@@ -65,9 +71,9 @@ partial class Player : SafeStrings.IScene<Player>
         }}
         partial class DustParticles { public static partial class DiveParticles
         {
-            public static SafeStrings.SceneNodePath<Godot.GPUParticles2D> Path = "./DustParticles/DiveParticles";
-            public static Godot.GPUParticles2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.GPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Godot.CPUParticles2D> Path = "./DustParticles/DiveParticles";
+            public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
         public static partial class Camera2D
         {

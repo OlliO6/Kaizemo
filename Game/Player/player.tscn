@@ -3,12 +3,19 @@
 [ext_resource type="Script" path="res://Game/Player/Player.cs" id="1_xsm3d"]
 [ext_resource type="Texture2D" uid="uid://cdkhqmyal5hc5" path="res://Game/Player/player.png" id="3_cbng3"]
 [ext_resource type="Material" uid="uid://chpjvmi5swcvg" path="res://Particles/Dust/DustParticles.material" id="3_dwyti"]
+[ext_resource type="Shader" path="res://Shaders/Common/color_replace.gdshader" id="3_ppa88"]
 [ext_resource type="Script" path="res://Game/Player/PlayerAnimationTree.cs" id="4_16t00"]
 [ext_resource type="Texture2D" uid="uid://nftcffrmb84v" path="res://Particles/Dust/DustParticle.png" id="4_ki6bk"]
 [ext_resource type="PackedScene" path="res://Game/Common/Components/StateMachine/StateMachine.tscn" id="6_j50qi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
 size = Vector2(7, 15)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0iowi"]
+shader = ExtResource("3_ppa88")
+shader_parameter/oldReplace = null
+shader_parameter/newColor = Color(0.607843, 0.133333, 0.607843, 1)
+shader_parameter/apply = false
 
 [sub_resource type="Animation" id="Animation_y4ftr"]
 resource_name = "CancelJump"
@@ -264,7 +271,7 @@ states/Run/position = Vector2(446, 100)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_0apq8"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_ftmpm"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_iquvm")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_nyo7w"]
-graph_offset = Vector2(-376, -30)
+graph_offset = Vector2(-83, -16)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ti34f")
 nodes/Animation/position = Vector2(-60, 240)
 nodes/OneShot/node = SubResource("AnimationNodeOneShot_h5kmy")
@@ -308,6 +315,7 @@ states/Die/node = SubResource("AnimationNodeAnimation_ue5vn")
 states/Die/position = Vector2(454, 100)
 states/End/position = Vector2(571, 100)
 transitions = ["Start", "Alive", SubResource("AnimationNodeStateMachineTransition_yagkw"), "Alive", "Die", SubResource("AnimationNodeStateMachineTransition_4b3jr"), "Die", "End", SubResource("AnimationNodeStateMachineTransition_ibfwh")]
+graph_offset = Vector2(-266, -55)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_4547r"]
 
@@ -321,53 +329,42 @@ transitions = ["Start", "Alive", SubResource("AnimationNodeStateMachineTransitio
 offsets = PackedFloat32Array(0, 0.107023, 0.509225, 1)
 colors = PackedColorArray(0.99, 0.99, 0.99, 0, 0.97417, 0.97417, 0.97417, 1, 0.927438, 0.927438, 0.927438, 1, 0.99, 0.99, 0.99, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_0fpvi"]
-gradient = SubResource("Gradient_jg124")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t6au8"]
-emission_shape = 3
-emission_box_extents = Vector3(1.5, 0.2, 1)
-particle_flag_disable_z = true
-direction = Vector3(-1, 0, 0)
-spread = 5.0
-gravity = Vector3(0, -7, 0)
-initial_velocity_min = 4.0
-initial_velocity_max = 5.5
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-damping_min = 48.0
-damping_max = 52.0
-color_ramp = SubResource("GradientTexture1D_0fpvi")
-anim_offset_min = 0.6
-anim_offset_max = 1.0
-
 [sub_resource type="LabelSettings" id="LabelSettings_gov3n"]
 font_size = 8
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 slide_on_ceiling = false
+floor_max_angle = 0.0
 safe_margin = 0.001
 script = ExtResource("1_xsm3d")
 jumpVelocity = -120.0
 jumpGravity = 200.0
 jumpCancelGravity = 315.0
 jumpCancelStrenght = 0.25
-groundAcceleration = 460.0
-groundDamping = 0.35
-groundStopDamping = 0.55
+groundAcceleration = 400.0
+groundDamping = 0.27
+groundStopDamping = 0.6
 airAcceleration = 245.0
 airDamping = 0.2
 airStopDamping = 0.12
+diveNoControlTime = 0.3
+diveUpVelocity = Vector2(0, -160)
+diveDownVelocity = Vector2(0, 200)
+diveLeftVelocity = Vector2(-220, -50)
+diveRightVelocity = Vector2(220, -50)
+diveOutlineColor = Color(1.86, 0.48, 2.13, 1)
 
 [node name="StateMachine" parent="." instance=ExtResource("6_j50qi")]
 
+[node name="LoadAbilityStateMachine" parent="." instance=ExtResource("6_j50qi")]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_ia4sn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_0iowi")
 position = Vector2(0, 8)
 texture = ExtResource("3_cbng3")
 offset = Vector2(0, -8)
@@ -468,21 +465,34 @@ damping_max = 52.0
 color_ramp = SubResource("Gradient_jg124")
 anim_offset_max = 0.8
 
-[node name="DiveParticles" type="GPUParticles2D" parent="DustParticles"]
-visible = false
-modulate = Color(0.34902, 0.541176, 0.498039, 1)
+[node name="DiveParticles" type="CPUParticles2D" parent="DustParticles"]
+modulate = Color(3, 3, 3, 1)
+z_index = 1
 material = ExtResource("3_dwyti")
-position = Vector2(0, 8)
-amount = 5
-process_material = SubResource("ParticleProcessMaterial_t6au8")
+emitting = false
+amount = 20
+lifetime = 0.35
+one_shot = true
+lifetime_randomness = 0.36
+draw_order = 1
 texture = ExtResource("4_ki6bk")
-lifetime = 0.9
-explosiveness = 0.08
-randomness = 0.34
-fixed_fps = 24
+emission_shape = 3
+emission_rect_extents = Vector2(2, 5.5)
+direction = Vector2(-1, 0)
+spread = 5.0
+gravity = Vector2(0, -7)
+initial_velocity_min = 4.0
+initial_velocity_max = 5.5
+radial_accel_min = 40.0
+radial_accel_max = 60.0
+damping_min = 48.0
+damping_max = 52.0
+color = Color(0.47451, 0.235294, 0.654902, 1)
+color_ramp = SubResource("Gradient_jg124")
+anim_offset_min = 0.6
+anim_offset_max = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-visible = false
 current = true
 
 [node name="StateLabel" type="Label" parent="."]

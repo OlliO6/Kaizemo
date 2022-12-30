@@ -1,12 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://d37hqi4rfwq7b"]
+[gd_scene load_steps=5 format=3 uid="uid://d37hqi4rfwq7b"]
 
 [ext_resource type="Script" path="res://Game/DiveSpender/DiveSpender.cs" id="1_vdmnk"]
+[ext_resource type="Shader" path="res://Shaders/Common/canvas_group_outline_8.gdshader" id="2_3nao1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_68cr8"]
+radius = 5.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vde67"]
+resource_local_to_scene = true
+shader = ExtResource("2_3nao1")
+shader_parameter/line_color = Color(1.41, 0.72, 1.95, 1)
+shader_parameter/line_scale = 1.0
 
 [node name="DiveSpender" type="Area2D"]
+modulate = Color(0.988235, 0.988235, 0.988235, 1)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
 script = ExtResource("1_vdmnk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_68cr8")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
+modulate = Color(3, 3, 3, 1)
+material = SubResource("ShaderMaterial_vde67")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="CanvasGroup"]
+modulate = Color(0.247059, 0.160784, 0.517647, 1)
+amount = 12
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 0.8
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 14.0
+initial_velocity_max = 16.0
+orbit_velocity_min = -4.0
+orbit_velocity_max = -1.0
+scale_amount_max = 2.0
+
+[node name="DisabledTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true

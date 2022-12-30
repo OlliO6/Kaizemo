@@ -5,7 +5,6 @@ public static class Res
     public static readonly ResourcePath<Godot.CSharpScript> LevelMap_cs = "res://LevelMap.cs";
     public static readonly ResourcePath<Godot.CompressedTexture2D> Platform_png = "res://Platform.png";
     public static readonly ResourcePath<Godot.PackedScene> Playground_tscn = "res://Playground.tscn";
-    public static readonly ResourcePath<Godot.PackedScene> gbuizkhb_tscn = "res://gbuizkhb.tscn";
     public static class Game
     {
         public static class Common
@@ -21,11 +20,19 @@ public static class Res
                     public static readonly ResourcePath<Godot.PackedScene> StateMachine_tscn = "res://Game/Common/Components/StateMachine/StateMachine.tscn";
                 }
             }
+            public static class Interfaces
+            {
+            }
         }
         public static class DiveSpender
         {
             public static readonly ResourcePath<Godot.CSharpScript> DiveSpender_cs = "res://Game/DiveSpender/DiveSpender.cs";
             public static readonly ResourcePath<Godot.PackedScene> DiveSpender_tscn = "res://Game/DiveSpender/DiveSpender.tscn";
+        }
+        public static class LoadAbilities
+        {
+            public static readonly ResourcePath<Godot.CSharpScript> ILoadAbilityObtainer_cs = "res://Game/LoadAbilities/ILoadAbilityObtainer.cs";
+            public static readonly ResourcePath<Godot.CSharpScript> LoadAbility_cs = "res://Game/LoadAbilities/LoadAbility.cs";
         }
         public static class Player
         {
@@ -51,6 +58,7 @@ public static class Res
         {
             public static readonly ResourcePath<Godot.Shader> canvas_group_outline_4_gdshader = "res://Shaders/Common/canvas_group_outline_4.gdshader";
             public static readonly ResourcePath<Godot.Shader> canvas_group_outline_8_gdshader = "res://Shaders/Common/canvas_group_outline_8.gdshader";
+            public static readonly ResourcePath<Godot.Shader> color_replace_gdshader = "res://Shaders/Common/color_replace.gdshader";
         }
         public static class Includes
         {
