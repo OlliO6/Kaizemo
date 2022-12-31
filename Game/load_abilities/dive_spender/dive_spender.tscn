@@ -1,14 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://d37hqi4rfwq7b"]
+[gd_scene load_steps=5 format=3 uid="uid://wknt68spdhe3"]
 
-[ext_resource type="Script" path="res://Game/DiveSpender/DiveSpender.cs" id="1_vdmnk"]
-[ext_resource type="Shader" path="res://Shaders/Common/canvas_group_outline_8.gdshader" id="2_3nao1"]
+[ext_resource type="Script" path="res://game/load_abilities/dive_spender/DiveSpender.cs" id="1_kcdui"]
+[ext_resource type="Shader" path="res://shaders/common/canvas_group_outline_8.gdshader" id="2_mrrew"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_68cr8"]
 radius = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vde67"]
 resource_local_to_scene = true
-shader = ExtResource("2_3nao1")
+shader = ExtResource("2_mrrew")
 shader_parameter/line_color = Color(1.41, 0.72, 1.95, 1)
 shader_parameter/line_scale = 1.0
 
@@ -17,7 +17,7 @@ modulate = Color(0.988235, 0.988235, 0.988235, 1)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
-script = ExtResource("1_vdmnk")
+script = ExtResource("1_kcdui")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_68cr8")
@@ -43,3 +43,5 @@ scale_amount_max = 2.0
 [node name="DisabledTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[connection signal="area_entered" from="." to="DisabledTimer" method="start"]

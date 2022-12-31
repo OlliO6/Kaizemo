@@ -15,19 +15,23 @@ do_register_resources=true
 [SafeStrings]
 
 scenes/scene_associations={
-"res://Game/DiveSpender/DiveSpender.tscn": "res://Game/DiveSpender/DiveSpender.cs",
-"res://Game/Player/Player.tscn": "res://Game/Player/Player.cs"
+"res://game/load_abilities/dive_spender/dive_spender.tscn": "res://game/load_abilities/dive_spender/DiveSpender.cs",
+"res://game/player/player.tscn": "res://game/player/Player.cs"
 }
 
 [application]
 
 config/name="Kaizemo 4"
-run/main_scene="res://Playground.tscn"
+run/main_scene="res://playground.tscn"
 config/features=PackedStringArray("4.0", "C#", "Mobile")
+
+[audio]
+
+buses/default_bus_layout=""
 
 [autoload]
 
-InputManager="*res://Singletons/InputManager.cs"
+InputManager="*res://singletons/InputManager.cs"
 
 [display]
 
@@ -99,7 +103,7 @@ action_right={
 
 [physics]
 
-2d/default_gravity=240.0
+2d/default_gravity=245.0
 
 [rendering]
 

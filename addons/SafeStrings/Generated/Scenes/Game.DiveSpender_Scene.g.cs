@@ -3,7 +3,7 @@ partial class DiveSpender : SafeStrings.IScene<DiveSpender>
 {
     public static DiveSpender Instantiate()
     {
-        var val = SafeStrings.Res.Game.DiveSpender.DiveSpender_tscn.Value.Instantiate<DiveSpender>();
+        var val = SafeStrings.Res.game.load_abilities.dive_spender.dive_spender_tscn.Value.Instantiate<DiveSpender>();
         ((SafeStrings.IScene<DiveSpender>)val).OnInstanced();
         return val;
     }
