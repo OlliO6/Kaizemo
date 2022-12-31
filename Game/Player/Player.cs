@@ -35,7 +35,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
     [Export(PropertyHint.Range, "0,1")] public float airDamping, airStopDamping;
 
     [ExportSubgroup("Dive", "dive")]
-    [Export] public float diveNoControlTime;
+    [Export(PropertyHint.Range, "0,1")] public Vector2 diveVelocityRemain;
     [Export] public Vector2 diveUpVelocity;
     [Export] public Vector2 diveDownVelocity;
     [Export] public Vector2 diveLeftVelocity;
@@ -234,7 +234,9 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     private void Dive(InputManager.ActionDirection direction)
     {
-        Velocity = direction switch
+        Velocity = Velocity * diveVelocityRemain;
+
+        Velocity += direction switch
         {
             InputManager.ActionDirection.Up => diveUpVelocity,
             InputManager.ActionDirection.Down => diveDownVelocity,
@@ -242,6 +244,11 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             InputManager.ActionDirection.Right => diveRightVelocity,
             _ => Vector2.Zero
         };
+
+        if (direction is InputManager.ActionDirection.Left)
+            FaceLeft = true;
+        else if (direction is InputManager.ActionDirection.Right)
+            FaceLeft = false;
 
         Scene.DustParticles.DiveParticles.GetCached(this).Restart();
 
