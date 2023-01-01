@@ -202,6 +202,8 @@ public partial class StateMachine : Node
                     foreach (var physicsprocessCallback in TagPhysicsProcessCallbacks[tag])
                         _InternalPhysicsProcess -= physicsprocessCallback;
             }
+
+        GetEmitter<SignalEmitter.StateChanged>().Emit();
     }
 
     public override void _Process(double delta)

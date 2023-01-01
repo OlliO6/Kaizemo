@@ -3,28 +3,21 @@ namespace Game;
 using Godot;
 using System;
 
-public partial class DiveSpender : Area2D
+public partial class DiveSpender : LoadAbilitySpenderPoint
 {
-    public override void _Ready()
+    protected override bool HandleObtainer(ILoadAbilityObtainer obtainer) => obtainer.GetLoadedAbility() is not LoadAbility.Dive;
+
+    protected override void GiveAbility(ILoadAbilityObtainer obtainer) => obtainer.ObtainLoadAbility(LoadAbility.Dive);
+
+    protected override void Disable()
     {
-        BodyEntered += (body) =>
-        {
-            if (body is not ILoadAbilityObtainer obtainer)
-                return;
+        Modulate = new Color(Colors.Gray, 0.5f);
+        Scene.CanvasGroup.Get(this).Material.Set("shader_parameter/line_scale", 0f);
+    }
 
-            obtainer.ObtainLoadAbility(LoadAbility.Dive);
-
-            Scene.CollisionShape2D.GetCached(this).SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-            Scene.CanvasGroup.GetCached(this).Material.Set("shader_parameter/line_scale", 0);
-            Modulate = Colors.Gray;
-            Scene.DisabledTimer.GetCached(this).Start();
-        };
-
-        Scene.DisabledTimer.GetCached(this).Timeout += () =>
-        {
-            Scene.CollisionShape2D.GetCached(this).SetDeferred(CollisionShape2D.PropertyName.Disabled, false);
-            Scene.CanvasGroup.GetCached(this).Material.Set("shader_parameter/line_scale", 1);
-            Modulate = Colors.White;
-        };
+    protected override void Enable()
+    {
+        Modulate = Colors.White;
+        Scene.CanvasGroup.Get(this).Material.Set("shader_parameter/line_scale", 1f);
     }
 }

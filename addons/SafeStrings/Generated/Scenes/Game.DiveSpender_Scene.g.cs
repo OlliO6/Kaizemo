@@ -27,12 +27,6 @@ partial class DiveSpender : SafeStrings.IScene<DiveSpender>
             public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
             public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
-        public static partial class DisabledTimer
-        {
-            public static SafeStrings.SceneNodePath<Godot.Timer> Path = "./DisabledTimer";
-            public static Godot.Timer Get(Godot.Node root) => Path.Get(root);
-            public static Godot.Timer GetCached(Godot.Node root) => Path.GetCached(root);
-        }
         
         public static class Unique
         {

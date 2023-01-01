@@ -13,6 +13,7 @@ public static class Res
         {
             public static class interfaces
             {
+                public static readonly ResourcePath<Godot.CSharpScript> ILoadAbilityObtainer_cs = "res://game/common/interfaces/ILoadAbilityObtainer.cs";
             }
             public static class state_machine
             {
@@ -25,8 +26,8 @@ public static class Res
         }
         public static class load_abilities
         {
-            public static readonly ResourcePath<Godot.CSharpScript> ILoadAbilityObtainer_cs = "res://game/load_abilities/ILoadAbilityObtainer.cs";
             public static readonly ResourcePath<Godot.CSharpScript> LoadAbility_cs = "res://game/load_abilities/LoadAbility.cs";
+            public static readonly ResourcePath<Godot.CSharpScript> LoadAbilitySpenderPoint_cs = "res://game/load_abilities/LoadAbilitySpenderPoint.cs";
             public static class dive_spender
             {
                 public static readonly ResourcePath<Godot.CSharpScript> DiveSpender_cs = "res://game/load_abilities/dive_spender/DiveSpender.cs";

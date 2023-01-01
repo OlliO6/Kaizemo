@@ -18,6 +18,7 @@ collision_layer = 0
 collision_mask = 2
 monitorable = false
 script = ExtResource("1_kcdui")
+disabledTime = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_68cr8")
@@ -39,9 +40,3 @@ initial_velocity_max = 16.0
 orbit_velocity_min = -4.0
 orbit_velocity_max = -1.0
 scale_amount_max = 2.0
-
-[node name="DisabledTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
-[connection signal="area_entered" from="." to="DisabledTimer" method="start"]

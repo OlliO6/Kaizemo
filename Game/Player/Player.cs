@@ -46,6 +46,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     private bool _faceLeft;
 
+    public event Action LoadedAbilityChanged;
+
     public StateMachine MainStateMachine => Scene.MainStateMachine.GetCached(this);
     public StateMachine LoadAbilityStateMachine => Scene.LoadAbilityStateMachine.GetCached(this);
     public Timer GroundRememberTimr => Scene.GroundRememberTimer.GetCached(this);
@@ -185,6 +187,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
         #region LoadAbilityStateMachine
 
+        LoadAbilityStateMachine.StateChanged += () => { GD.Print("Hello world"); LoadedAbilityChanged?.Invoke(); };
+
         LoadAbilityStateMachine.AddState(LoadAbilityStateId.Nothing)
             .WithEnterCallback(() => Sprite.Material.Set("shader_parameter/apply", false))
             .WithExitCallback(() => Sprite.Material.Set("shader_parameter/apply", true));
@@ -281,5 +285,14 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
                 LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Dive);
                 break;
         }
+    }
+
+    public LoadAbility? GetLoadedAbility()
+    {
+        return LoadAbilityStateMachine.CurrentState.Id switch
+        {
+            LoadAbilityStateId.Dive => LoadAbility.Dive,
+            _ or LoadAbilityStateId.Nothing => null
+        };
     }
 }
