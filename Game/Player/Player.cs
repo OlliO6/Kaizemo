@@ -288,7 +288,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         Scene.DustParticles.DiveParticles.GetCached(this).Restart();
 
         LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Nothing);
-        MainStateMachine.SwitchToState(MainStateId.Dive);
+
+        MainStateMachine.SwitchToState(direction is InputManager.ActionDirection.Up ? MainStateId.UpwardsDive : MainStateId.Dive);
     }
 
     public void Die()
