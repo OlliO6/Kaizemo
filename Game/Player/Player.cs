@@ -118,7 +118,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Fall"))
             .WithEnterCallback(() =>
             {
-                GD.Print("ENTER_FALL");
                 if (MainStateMachine.PreviousState.HasTag(MainStateTag.OnGround))
                     GroundRememberTimer.Start();
             })
@@ -219,7 +218,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
         #region LoadAbilityStateMachine
 
-        LoadAbilityStateMachine.StateChanged += () => { GD.Print("Hello world"); LoadedAbilityChanged?.Invoke(); };
+        LoadAbilityStateMachine.StateChanged += () => LoadedAbilityChanged?.Invoke();
 
         LoadAbilityStateMachine.AddState(LoadAbilityStateId.Nothing)
             .WithEnterCallback(() => Sprite.Material.Set("shader_parameter/apply", false))

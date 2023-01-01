@@ -43,13 +43,7 @@ public abstract partial class LoadAbilitySpenderPoint : Area2D
             if (Disabled)
                 return;
 
-            if (HandleObtainer(obtainer))
-            {
-                Disable();
-                Disabled = true;
-                DisabledTimer.Start(disabledTime);
-                GiveAbility(obtainer);
-            }
+            UseIfObtainerIsHandeled(obtainer);
 
             LatestObtainerInArea.LoadedAbilityChanged += InAreaAbilityChangedCallback;
         };
@@ -70,10 +64,20 @@ public abstract partial class LoadAbilitySpenderPoint : Area2D
 
             if (LatestObtainerInArea != null)
             {
-                LatestObtainerInArea.LoadedAbilityChanged -= InAreaAbilityChangedCallback;
-                LatestObtainerInArea = null;
+                UseIfObtainerIsHandeled(LatestObtainerInArea);
             }
         };
+    }
+
+    private void UseIfObtainerIsHandeled(ILoadAbilityObtainer obtainer)
+    {
+        if (HandleObtainer(obtainer))
+        {
+            Disable();
+            Disabled = true;
+            DisabledTimer.Start(disabledTime);
+            GiveAbility(obtainer);
+        }
     }
 
     private void InAreaAbilityChangedCallback()
@@ -81,12 +85,6 @@ public abstract partial class LoadAbilitySpenderPoint : Area2D
         if (Disabled)
             return;
 
-        if (HandleObtainer(LatestObtainerInArea))
-        {
-            Disable();
-            Disabled = true;
-            DisabledTimer.Start(disabledTime);
-            GiveAbility(LatestObtainerInArea);
-        }
+        UseIfObtainerIsHandeled(LatestObtainerInArea);
     }
 }
