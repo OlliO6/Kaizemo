@@ -6,9 +6,9 @@ using StateMachines;
 
 public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 {
-    public enum MainStateId { Idle, Run, Fall, Jump, CancelJump, Dead }
+    public enum MainStateId { Idle, Run, Fall, Jump, CancelJump, Dead, Dive, UpwardsDive }
 
-    public enum MainStateTag { OnGround, InAir, AirHorizontalMovement }
+    public enum MainStateTag { OnGround, InAir, AirHorizontalMovement, UpwardsSnapping }
 
     public enum LoadAbilityStateId { Nothing, Dive }
 
@@ -35,6 +35,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
     [Export(PropertyHint.Range, "0,1")] public float airDamping, airStopDamping;
 
     [ExportSubgroup("Dive", "dive")]
+    [Export] public float diveDuration;
+    [Export] public float diveGravity;
     [Export(PropertyHint.Range, "0,1")] public Vector2 diveVelocityRemain;
     [Export] public Vector2 diveUpVelocity;
     [Export] public Vector2 diveDownVelocity;
@@ -50,7 +52,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     public StateMachine MainStateMachine => Scene.MainStateMachine.GetCached(this);
     public StateMachine LoadAbilityStateMachine => Scene.LoadAbilityStateMachine.GetCached(this);
-    public Timer GroundRememberTimr => Scene.GroundRememberTimer.GetCached(this);
+    public Timer GroundRememberTimer => Scene.GroundRememberTimer.GetCached(this);
+    public Timer DiveTimer => Scene.DiveTimer.GetCached(this);
     public PlayerAnimationTree AnimTree => Scene.AnimationTree.GetCached(this);
     public Sprite2D Sprite => Scene.Sprite.GetCached(this);
 
@@ -81,16 +84,16 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         #region MainStateMachine 
 
         MainStateMachine.AddState(MainStateId.Idle)
-                    .WithTag(MainStateTag.OnGround)
-                    .WithEnterCallback(() => AnimTree.OnGroundPlayback.Travel("Idle"))
-                    .WithPhysicsProcessCallback((_) => MainStateMachine.SwitchStateIf(MainStateId.Fall, !IsOnFloor()), true)
-                    .WithPhysicsProcessCallback((delta) =>
-                    {
-                        var horizontalInput = InputManager.GetPlayerHorizontalInput();
-                        ApplyHorizontalMovement(delta, horizontalInput, groundAcceleration, groundDamping, groundStopDamping);
-                        if (horizontalInput != 0)
-                            MainStateMachine.SwitchToState(MainStateId.Run);
-                    });
+            .WithTag(MainStateTag.OnGround)
+            .WithEnterCallback(() => AnimTree.OnGroundPlayback.Travel("Idle"))
+            .WithPhysicsProcessCallback((_) => MainStateMachine.SwitchStateIf(MainStateId.Fall, !IsOnFloor()), true)
+            .WithPhysicsProcessCallback((delta) =>
+            {
+                var horizontalInput = InputManager.GetPlayerHorizontalInput();
+                ApplyHorizontalMovement(delta, horizontalInput, groundAcceleration, groundDamping, groundStopDamping);
+                if (horizontalInput != 0)
+                    MainStateMachine.SwitchToState(MainStateId.Run);
+            });
 
         MainStateMachine.AddState(MainStateId.Run)
             .WithTag(MainStateTag.OnGround)
@@ -115,16 +118,17 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Fall"))
             .WithEnterCallback(() =>
             {
+                GD.Print("ENTER_FALL");
                 if (MainStateMachine.PreviousState.HasTag(MainStateTag.OnGround))
-                    GroundRememberTimr.Start();
+                    GroundRememberTimer.Start();
             })
             .WithPhysicsProcessCallback((delta) =>
             {
                 ApplyGravity(delta, fallGravity);
-                if (GroundRememberTimr.TimeLeft > 0 && InputManager.IsJumpBuffered)
+                if (GroundRememberTimer.TimeLeft > 0 && InputManager.IsJumpBuffered)
                     Jump();
             })
-            .WithExitCallback(GroundRememberTimr.Stop);
+            .WithExitCallback(GroundRememberTimer.Stop);
 
         MainStateMachine.AddState(MainStateId.Jump)
             .WithTag(MainStateTag.InAir)
@@ -142,6 +146,29 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             .WithEnterCallback(() => this.SetVelocityY(Velocity.y * (1 - jumpCancelStrenght)))
             .WithPhysicsProcessCallback((delta) => ApplyGravity(delta, jumpCancelGravity))
             .WithPhysicsProcessCallback((_) => MainStateMachine.SwitchStateIf(MainStateId.Fall, Velocity.y > 0));
+
+        MainStateMachine.AddState(MainStateId.Dive)
+            .WithTag(MainStateTag.InAir)
+            .WithTag(MainStateTag.AirHorizontalMovement)
+            .WithEnterCallback(() => Scene.DustParticles.DiveParticles.GetCached(this).Emitting = true)
+            .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Dive"))
+            .WithEnterCallback(() => DiveTimer.Start(diveDuration))
+            .WithPhysicsProcessCallback((delta) => ApplyGravity(delta, diveGravity))
+            .WithExitCallback(() => Scene.DustParticles.DiveParticles.GetCached(this).Emitting = false)
+            .WithExitCallback(() => DiveTimer.Stop());
+
+        MainStateMachine.AddState(MainStateId.UpwardsDive)
+            .WithTag(MainStateTag.InAir)
+            .WithTag(MainStateTag.AirHorizontalMovement)
+            .WithTag(MainStateTag.UpwardsSnapping)
+            .WithEnterCallback(() => Scene.DustParticles.DiveParticles.GetCached(this).Emitting = true)
+            .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Dive"))
+            .WithEnterCallback(() => DiveTimer.Start(diveDuration))
+            .WithPhysicsProcessCallback((delta) => ApplyGravity(delta, diveGravity))
+            .WithExitCallback(() => Scene.DustParticles.DiveParticles.GetCached(this).Emitting = false)
+            .WithExitCallback(() => DiveTimer.Stop());
+
+        DiveTimer.Timeout += () => MainStateMachine.SwitchToState(MainStateId.Fall);
 
         MainStateMachine.WithPhysicsProcessTagCallback(MainStateTag.OnGround, (_) =>
         {
@@ -166,9 +193,14 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
             if (MainStateMachine.PreviousState?.Id.Equals(MainStateId.Fall) ?? false)
             {
-                AnimTree.SetDeferred(PlayerAnimationTree.PropertyName.LandActive, true);
+                AnimTree.LandActive = true;
                 Scene.DustParticles.LandParticles.GetCached(this).Restart();
             }
+        });
+
+        MainStateMachine.WithExitTagCallback(MainStateTag.OnGround, () =>
+        {
+            AnimTree.LandActive = false;
         });
 
         MainStateMachine.WithEnterTagCallback(MainStateTag.InAir, () =>
@@ -227,7 +259,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     public override void _Process(double delta)
     {
-        Scene.StateLabel.GetCached(this).Text = MainStateMachine.GetCurrentStateAsString(true);
+        Scene.StateLabel.GetCached(this).Text = MainStateMachine.GetCurrentStateAsString(false);
     }
 
     private void Jump()
@@ -257,14 +289,13 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         Scene.DustParticles.DiveParticles.GetCached(this).Restart();
 
         LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Nothing);
-        MainStateMachine.SwitchToState(MainStateId.Fall);
+        MainStateMachine.SwitchToState(MainStateId.Dive);
     }
 
     public void Die()
     {
         MainStateMachine.SwitchToState(MainStateId.Dead);
     }
-
 
     private void ActionPressedCallback(InputManager.ActionDirection direction)
     {
