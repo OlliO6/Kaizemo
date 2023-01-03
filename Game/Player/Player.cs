@@ -4,7 +4,7 @@ using Godot;
 using System;
 using StateMachines;
 
-public partial class Player : CharacterBody2D, ILoadAbilityObtainer
+public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
 {
     public enum MainStateId { Idle, Run, Fall, Jump, CancelJump, Dead, Dive, UpwardsDive }
 
@@ -16,6 +16,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     private const int AnimationTreeGroundedStateIdle = 0;
     private const int AnimationTreeGroundedStateRun = 1;
+
+    #region Exports 
 
     [ExportGroup("Movement")]
     [Export] public float fallGravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -45,6 +47,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     [ExportGroup("LoadAbilityColors")]
     [Export] public Color diveOutlineColor;
+
+    #endregion Exports
 
     private bool _faceLeft;
 

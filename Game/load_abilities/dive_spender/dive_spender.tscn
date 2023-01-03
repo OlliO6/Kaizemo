@@ -24,7 +24,6 @@ disabledTime = 2.0
 shape = SubResource("CircleShape2D_68cr8")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
-process_mode = 4
 modulate = Color(3, 3, 3, 1)
 material = SubResource("ShaderMaterial_vde67")
 

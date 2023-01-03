@@ -22,12 +22,8 @@ scenes/scene_associations={
 [application]
 
 config/name="Kaizemo 4"
-run/main_scene="res://playground.tscn"
+run/main_scene="res://game/playground.tscn"
 config/features=PackedStringArray("4.0", "C#", "Mobile")
-
-[audio]
-
-buses/default_bus_layout=""
 
 [autoload]
 

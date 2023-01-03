@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://yv8qvgy6jnjb"]
+[gd_scene load_steps=58 format=3 uid="uid://yv8qvgy6jnjb"]
 
 [ext_resource type="Script" path="res://game/player/Player.cs" id="1_usn35"]
 [ext_resource type="PackedScene" uid="uid://co8eduwphcuxe" path="res://game/common/state_machine/state_machine.tscn" id="2_cciaa"]
@@ -46,6 +46,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(4.28709, 1),
+"update": 0,
+"values": [0.0, 1.5708]
 }
 
 [sub_resource type="Animation" id="Animation_dy18e"]
@@ -348,16 +360,13 @@ advance_mode = 2
 advance_mode = 2
 advance_condition = &"IsDead"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ibfwh"]
-advance_mode = 2
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_otx57"]
 states/Alive/node = SubResource("AnimationNodeStateMachine_s4mur")
 states/Alive/position = Vector2(331, 100)
 states/Die/node = SubResource("AnimationNodeAnimation_ue5vn")
 states/Die/position = Vector2(454, 100)
-states/End/position = Vector2(571, 100)
-transitions = ["Start", "Alive", SubResource("AnimationNodeStateMachineTransition_yagkw"), "Alive", "Die", SubResource("AnimationNodeStateMachineTransition_4b3jr"), "Die", "End", SubResource("AnimationNodeStateMachineTransition_ibfwh")]
+states/End/position = Vector2(665, 100)
+transitions = ["Start", "Alive", SubResource("AnimationNodeStateMachineTransition_yagkw"), "Alive", "Die", SubResource("AnimationNodeStateMachineTransition_4b3jr")]
 graph_offset = Vector2(-266, -55)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_4547r"]
