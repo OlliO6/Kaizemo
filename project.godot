@@ -99,7 +99,7 @@ action_right={
 
 [physics]
 
-2d/default_gravity=245.0
+2d/default_gravity=250.0
 
 [rendering]
 

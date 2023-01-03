@@ -81,6 +81,36 @@ partial class Player : SafeStrings.IScene<Player>
             public static global::Game.PlayerBehaviour.PlayerCam Get(Godot.Node root) => Path.Get(root);
             public static global::Game.PlayerBehaviour.PlayerCam GetCached(Godot.Node root) => Path.GetCached(root);
         }
+        public static partial class Sounds
+        {
+            public static SafeStrings.SceneNodePath<Godot.Node2D> Path = "./Sounds";
+            public static Godot.Node2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.Node2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }
+        partial class Sounds { public static partial class Jump
+        {
+            public static SafeStrings.SceneNodePath<Godot.AudioStreamPlayer2D> Path = "./Sounds/Jump";
+            public static Godot.AudioStreamPlayer2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.AudioStreamPlayer2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class Sounds { public static partial class Dive
+        {
+            public static SafeStrings.SceneNodePath<Godot.AudioStreamPlayer2D> Path = "./Sounds/Dive";
+            public static Godot.AudioStreamPlayer2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.AudioStreamPlayer2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class Sounds { public static partial class GainDive
+        {
+            public static SafeStrings.SceneNodePath<Godot.AudioStreamPlayer2D> Path = "./Sounds/GainDive";
+            public static Godot.AudioStreamPlayer2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.AudioStreamPlayer2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class Sounds { public static partial class Die
+        {
+            public static SafeStrings.SceneNodePath<Godot.AudioStreamPlayer> Path = "./Sounds/Die";
+            public static Godot.AudioStreamPlayer Get(Godot.Node root) => Path.Get(root);
+            public static Godot.AudioStreamPlayer GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
         public static partial class GroundRememberTimer
         {
             public static SafeStrings.SceneNodePath<Godot.Timer> Path = "./GroundRememberTimer";

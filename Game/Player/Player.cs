@@ -227,7 +227,11 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
 
         LoadAbilityStateMachine.AddState(LoadAbilityStateId.Dive)
             .WithTag(LoadAbilityStateTag.LooseOnGround)
-            .WithEnterCallback(() => Sprite.Material.Set("shader_parameter/newColor", diveOutlineColor));
+            .WithEnterCallback(() =>
+            {
+                Sprite.Material.Set("shader_parameter/newColor", diveOutlineColor);
+                Scene.Sounds.GainDive.GetCached(this).Play();
+            });
 
         LoadAbilityStateMachine.WithPhysicsProcessTagCallback(LoadAbilityStateTag.LooseOnGround, (_) =>
         {
@@ -274,6 +278,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
         InputManager.UseJumpBuffer();
         this.SetVelocityY(jumpVelocity);
         MainStateMachine.SwitchToState(MainStateId.Jump);
+        Scene.Sounds.Jump.GetCached(this).Play();
     }
 
     private void Dive(InputManager.ActionDirection direction)
@@ -294,16 +299,15 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
         else if (direction is InputManager.ActionDirection.Right)
             FaceLeft = false;
 
-        Scene.DustParticles.DiveParticles.GetCached(this).Restart();
-
         LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Nothing);
-
         MainStateMachine.SwitchToState(direction is InputManager.ActionDirection.Up ? MainStateId.UpwardsDive : MainStateId.Dive);
+        Scene.Sounds.Dive.GetCached(this).Play();
     }
 
     public void Die()
     {
         MainStateMachine.SwitchToState(MainStateId.Dead);
+        Scene.Sounds.Die.GetCached(this).Play();
     }
 
     private void ActionPressedCallback(InputManager.ActionDirection direction)

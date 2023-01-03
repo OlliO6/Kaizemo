@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://yv8qvgy6jnjb"]
+[gd_scene load_steps=65 format=3 uid="uid://yv8qvgy6jnjb"]
 
 [ext_resource type="Script" path="res://game/player/Player.cs" id="1_usn35"]
 [ext_resource type="PackedScene" uid="uid://co8eduwphcuxe" path="res://game/common/state_machine/state_machine.tscn" id="2_cciaa"]
@@ -8,6 +8,10 @@
 [ext_resource type="Material" uid="uid://chpjvmi5swcvg" path="res://particles/dust/dust_particles.material" id="6_nkyyj"]
 [ext_resource type="Texture2D" uid="uid://nftcffrmb84v" path="res://particles/dust/dust_particle.png" id="7_uog8h"]
 [ext_resource type="Script" path="res://game/player/PlayerCam.cs" id="8_a1nfe"]
+[ext_resource type="AudioStream" uid="uid://dotniqp4ii770" path="res://game/player/sounds/jump.ogg" id="9_i82yn"]
+[ext_resource type="AudioStream" uid="uid://dnt0f7og3aefe" path="res://game/player/sounds/dive.ogg" id="10_lpgty"]
+[ext_resource type="AudioStream" uid="uid://orqfpegb8dpv" path="res://game/player/sounds/die.ogg" id="11_x4t7r"]
+[ext_resource type="AudioStream" uid="uid://bs2dm0n0bchjd" path="res://game/player/sounds/gain_dive.ogg" id="12_qx6yi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
 size = Vector2(6, 15)
@@ -35,6 +39,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_vgf0n"]
 resource_name = "Die"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -54,7 +59,7 @@ tracks/1/path = NodePath("Sprite:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 0.7),
 "transitions": PackedFloat32Array(4.28709, 1),
 "update": 0,
 "values": [0.0, 1.5708]
@@ -381,6 +386,21 @@ graph_offset = Vector2(-266, -55)
 offsets = PackedFloat32Array(0, 0.107023, 0.509225, 1)
 colors = PackedColorArray(0.99, 0.99, 0.99, 0, 0.97417, 0.97417, 0.97417, 1, 0.927438, 0.927438, 0.927438, 1, 0.99, 0.99, 0.99, 0)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cxvyj"]
+streams_count = 1
+stream_0/stream = ExtResource("9_i82yn")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jvosf"]
+streams_count = 1
+stream_0/stream = ExtResource("10_lpgty")
+stream_0/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dlc2w"]
+streams_count = 1
+stream_0/stream = ExtResource("12_qx6yi")
+stream_0/weight = 1.0
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_priority = 10.0
@@ -554,6 +574,24 @@ drag_vertical_enabled = true
 editor_draw_drag_margin = true
 script = ExtResource("8_a1nfe")
 playerVelocityInfluence = 0.1
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_cxvyj")
+bus = &"Sounds"
+
+[node name="Dive" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_jvosf")
+bus = &"Sounds"
+
+[node name="GainDive" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_dlc2w")
+bus = &"Sounds"
+
+[node name="Die" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("11_x4t7r")
+bus = &"Sounds"
 
 [node name="GroundRememberTimer" type="Timer" parent="."]
 wait_time = 0.125
