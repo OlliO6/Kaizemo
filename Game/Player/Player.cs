@@ -8,7 +8,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 {
     public enum MainStateId { Idle, Run, Fall, Jump, CancelJump, Dead, Dive, UpwardsDive }
 
-    public enum MainStateTag { OnGround, InAir, AirHorizontalMovement, UpwardsSnapping }
+    public enum MainStateTag { OnGround, InAir, AirHorizontalMovement }
 
     public enum LoadAbilityStateId { Nothing, Dive }
 
@@ -124,9 +124,10 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             .WithPhysicsProcessCallback((delta) =>
             {
                 ApplyGravity(delta, fallGravity);
-                if (GroundRememberTimer.TimeLeft > 0 && InputManager.IsJumpBuffered)
+                if (!GroundRememberTimer.IsStopped() && InputManager.IsJumpBuffered)
                     Jump();
             })
+            .WithPhysicsProcessCallback((_) => MainStateMachine.SwitchStateIf(MainStateId.Idle, IsOnFloor()))
             .WithExitCallback(GroundRememberTimer.Stop);
 
         MainStateMachine.AddState(MainStateId.Jump)
@@ -159,7 +160,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         MainStateMachine.AddState(MainStateId.UpwardsDive)
             .WithTag(MainStateTag.InAir)
             .WithTag(MainStateTag.AirHorizontalMovement)
-            .WithTag(MainStateTag.UpwardsSnapping)
             .WithEnterCallback(() => Scene.DustParticles.DiveParticles.GetCached(this).Emitting = true)
             .WithEnterCallback(() => AnimTree.InAirPlayback.Travel("Dive"))
             .WithEnterCallback(() => DiveTimer.Start(diveDuration))
@@ -176,12 +176,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             if (InputManager.IsJumpBuffered)
                 Jump();
         });
-
-        MainStateMachine.WithPhysicsProcessTagCallback(MainStateTag.InAir, (_) =>
-        {
-            if (IsOnFloor())
-                MainStateMachine.SwitchToState(MainStateId.Idle);
-        }, true);
 
         MainStateMachine.WithPhysicsProcessTagCallback(MainStateTag.AirHorizontalMovement,
             (delta) => ApplyHorizontalMovement(delta, InputManager.GetPlayerHorizontalInput(), airAcceleration, airDamping, airStopDamping));
@@ -211,6 +205,9 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
         MainStateMachine.PhysicsProcessApplied += (delta) =>
         {
+            if (MainStateMachine.CurrentState.HasTag(MainStateTag.InAir))
+                ApplyCornerPushing(delta);
+
             MoveAndSlide();
         };
 
@@ -238,6 +235,21 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         #endregion LoadAbilityStateMachine
     }
 
+    private void ApplyCornerPushing(double delta)
+    {
+        const float MinYVelocityToDoSidewardsPushing = -20;
+
+        if (Velocity.y < 0)
+        {
+            ApplyUpwardsCornerPushing(delta);
+        }
+
+        if (Velocity.y > MinYVelocityToDoSidewardsPushing && (FaceLeft ? -Velocity.x : Velocity.x) > 0)
+        {
+            ApplySidewardsCornerPushing(delta);
+        }
+    }
+
     private void ApplyGravity(double delta, float gravity) => this.SetVelocityY(Velocity.y + gravity * (float)delta);
 
     private void ApplyHorizontalMovement(double delta, float horizontalInput, float acceleration, float damping, float stopDamping)
@@ -247,13 +259,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         velocity.x *= Mathf.Pow(1f - (horizontalInput == 0 ? stopDamping : damping), (float)delta * 10f);
         Velocity = velocity;
 
-        if (horizontalInput > 0)
-        {
-            FaceLeft = false;
-            return;
-        }
-        if (horizontalInput < 0)
-            FaceLeft = true;
+        if (horizontalInput != 0)
+            FaceLeft = horizontalInput < 0;
     }
 
     public override void _Process(double delta)
@@ -263,6 +270,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
 
     private void Jump()
     {
+        InputManager.UseJumpBuffer();
         this.SetVelocityY(jumpVelocity);
         MainStateMachine.SwitchToState(MainStateId.Jump);
     }
@@ -305,6 +313,108 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         {
             Dive(direction);
             return;
+        }
+    }
+
+    private void ApplyUpwardsCornerPushing(double delta)
+    {
+        const float MinPushLenght = 0.1f;
+        const int MaxPushSteps = 50;
+
+        Vector2 rayTargetPos = new Vector2(0, Velocity.y * (float)delta);
+
+        var rayHolder = Scene.UpwardsCornerPushRaycasts.GetCached(this);
+        var leftRay = Scene.UpwardsCornerPushRaycasts.Left.GetCached(this);
+        var midLeftRay = Scene.UpwardsCornerPushRaycasts.MiddleLeft.GetCached(this);
+
+        rayHolder.GlobalPosition = GlobalPosition;
+
+        leftRay.TargetPosition = rayTargetPos;
+        leftRay.ForceRaycastUpdate();
+        midLeftRay.TargetPosition = rayTargetPos;
+        midLeftRay.ForceRaycastUpdate();
+
+        if (leftRay.IsColliding() && !midLeftRay.IsColliding())
+        {
+            PushRight();
+            GD.Print("RIGHT");
+            return;
+        }
+
+        var rightRay = Scene.UpwardsCornerPushRaycasts.Right.GetCached(this);
+        var midRightRay = Scene.UpwardsCornerPushRaycasts.MiddleRight.GetCached(this);
+
+        rightRay.TargetPosition = rayTargetPos;
+        rightRay.ForceRaycastUpdate();
+        midRightRay.TargetPosition = rayTargetPos;
+        midRightRay.ForceRaycastUpdate();
+
+        if (rightRay.IsColliding() && !midRightRay.IsColliding())
+        {
+            PushLeft();
+            GD.Print("LEFT");
+            return;
+        }
+
+        void PushRight()
+        {
+            for (int i = 0; i < MaxPushSteps; i++)
+            {
+                GlobalPosition = new Vector2(GlobalPosition.x + MinPushLenght, GlobalPosition.y);
+                rayHolder.GlobalPosition = GlobalPosition;
+                leftRay.ForceRaycastUpdate();
+
+                if (!leftRay.IsColliding())
+                    break;
+            }
+        }
+
+        void PushLeft()
+        {
+            for (int i = 0; i < MaxPushSteps; i++)
+            {
+                GlobalPosition = new Vector2(GlobalPosition.x - MinPushLenght, GlobalPosition.y);
+                rayHolder.GlobalPosition = GlobalPosition;
+                rightRay.ForceRaycastUpdate();
+
+                if (!rightRay.IsColliding())
+                    break;
+            }
+        }
+    }
+
+    private void ApplySidewardsCornerPushing(double delta)
+    {
+        const float MinPushLenght = 0.1f;
+        const int MaxPushSteps = 50;
+
+        Vector2 rayTargetPos = new Vector2(Velocity.x.Abs() * (float)delta, 0);
+
+        var bottomRay = Scene.SidewardsCornerPushRaycasts.Bottom.GetCached(this);
+        var middleRay = Scene.SidewardsCornerPushRaycasts.Middle.GetCached(this);
+
+        bottomRay.TargetPosition = rayTargetPos;
+        bottomRay.ForceRaycastUpdate();
+        middleRay.TargetPosition = rayTargetPos;
+        middleRay.ForceRaycastUpdate();
+
+        if (bottomRay.IsColliding() && !middleRay.IsColliding())
+        {
+            PushUp();
+        }
+
+        void PushUp()
+        {
+            for (int i = 0; i < MaxPushSteps; i++)
+            {
+                GlobalPosition = new Vector2(GlobalPosition.x, GlobalPosition.y - MinPushLenght);
+                bottomRay.ForceRaycastUpdate();
+
+                if (!bottomRay.IsColliding())
+                    break;
+            }
+
+            this.SetVelocityY(0);
         }
     }
 

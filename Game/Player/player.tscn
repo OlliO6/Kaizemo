@@ -47,6 +47,22 @@ tracks/0/keys = {
 "values": [3]
 }
 
+[sub_resource type="Animation" id="Animation_dy18e"]
+resource_name = "Dive"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
 [sub_resource type="Animation" id="Animation_tvs37"]
 resource_name = "Fall"
 length = 0.001
@@ -208,22 +224,6 @@ tracks/1/keys = {
 "values": [0, 1, 0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_dy18e"]
-resource_name = "Dive"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8m1qr"]
 _data = {
 "CancelJump": SubResource("Animation_y4ftr"),
@@ -376,12 +376,13 @@ font_size = 8
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
+collision_priority = 10.0
 slide_on_ceiling = false
 floor_max_angle = 0.0
 safe_margin = 0.001
 script = ExtResource("1_usn35")
-jumpVelocity = -120.0
-jumpGravity = 208.0
+jumpVelocity = -118.0
+jumpGravity = 200.0
 jumpCancelGravity = 320.0
 jumpCancelStrenght = 0.25
 groundAcceleration = 400.0
@@ -392,7 +393,7 @@ airDamping = 0.2
 airStopDamping = 0.15
 diveDuration = 0.3
 diveGravity = 225.0
-diveVelocityRemain = Vector2(0.3, 0)
+diveVelocityRemain = Vector2(0.2, 0)
 diveUpVelocity = Vector2(0, -150)
 diveDownVelocity = Vector2(0, 180)
 diveLeftVelocity = Vector2(-220, -50)
@@ -537,6 +538,12 @@ anim_offset_max = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+editor_draw_drag_margin = true
 
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -34.7278
@@ -552,23 +559,42 @@ vertical_alignment = 1
 wait_time = 0.125
 one_shot = true
 
-[node name="UpwardsSnapRaycasts" type="Node2D" parent="."]
-
-[node name="Left" type="RayCast2D" parent="UpwardsSnapRaycasts"]
-position = Vector2(-2.5, -7)
-target_position = Vector2(0, -2)
-
-[node name="LeftMiddle" type="RayCast2D" parent="UpwardsSnapRaycasts"]
-position = Vector2(-1.5, -7)
-target_position = Vector2(0, -2)
-
-[node name="RightMiddle" type="RayCast2D" parent="UpwardsSnapRaycasts"]
-position = Vector2(1.5, -7)
-target_position = Vector2(0, -2)
-
-[node name="Right" type="RayCast2D" parent="UpwardsSnapRaycasts"]
-position = Vector2(2.5, -7)
-target_position = Vector2(0, -2)
-
 [node name="DiveTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="UpwardsCornerPushRaycasts" type="Node2D" parent="."]
+visible = false
+top_level = true
+
+[node name="Left" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
+position = Vector2(-3, -7)
+enabled = false
+target_position = Vector2(0, -2)
+
+[node name="MiddleLeft" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
+position = Vector2(-0.8, -7)
+enabled = false
+target_position = Vector2(0, -2)
+
+[node name="MiddleRight" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
+position = Vector2(0.8, -7)
+enabled = false
+target_position = Vector2(0, -2)
+
+[node name="Right" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
+position = Vector2(3, -7)
+enabled = false
+target_position = Vector2(0, -2)
+
+[node name="SidewardsCornerPushRaycasts" type="Node2D" parent="."]
+visible = false
+
+[node name="Bottom" type="RayCast2D" parent="SidewardsCornerPushRaycasts"]
+position = Vector2(3, 8)
+enabled = false
+target_position = Vector2(2, 0)
+
+[node name="Middle" type="RayCast2D" parent="SidewardsCornerPushRaycasts"]
+position = Vector2(3, 6)
+enabled = false
+target_position = Vector2(2, 0)

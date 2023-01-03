@@ -102,6 +102,16 @@ public partial class StateMachine : Node
 
         if (!defer)
         {
+            if (onlyCallWhenActive)
+            {
+                TagProcessCallbacks[tag].Add((delta) =>
+                {
+                    if (CurrentState.HasTag(tag))
+                        callback(delta);
+                });
+                return this;
+            }
+
             TagProcessCallbacks[tag].Add(callback);
             return this;
         }
@@ -127,6 +137,16 @@ public partial class StateMachine : Node
 
         if (!defer)
         {
+            if (onlyCallWhenActive)
+            {
+                TagPhysicsProcessCallbacks[tag].Add((delta) =>
+                {
+                    if (CurrentState.HasTag(tag))
+                        callback(delta);
+                });
+                return this;
+            }
+
             TagPhysicsProcessCallbacks[tag].Add(callback);
             return this;
         }

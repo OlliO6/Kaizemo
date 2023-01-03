@@ -5,17 +5,17 @@ public partial class InputManager : Node
 {
     public enum ActionDirection { Up, Down, Left, Right }
 
-    const float JumpBufferTime = 0.1f;
+    const float JumpBufferTime = 0.125f;
 
     public static InputManager Instance { get; private set; }
 
     public static event Action JumpPressed, JumpReleased, PausePressed;
     public static event Action<ActionDirection> ActionPressed;
 
-    public static bool IsJumpBuffered => Instance.jumpBufferTimer.TimeLeft != 0 && !Instance.jumpBufferTimer.IsStopped();
+    public static bool IsJumpBuffered => !Instance._jumpBufferTimer.IsStopped();
     public static bool IsHoldingJump => Input.IsActionPressed(InputAction.Jump);
 
-    private Timer jumpBufferTimer;
+    private Timer _jumpBufferTimer;
 
     public override void _EnterTree() => Instance = this;
     public override void _ExitTree() => Instance = null;
@@ -24,19 +24,19 @@ public partial class InputManager : Node
     {
         ProcessMode = ProcessModeEnum.Always;
 
-        jumpBufferTimer = new()
+        _jumpBufferTimer = new()
         {
             OneShot = true,
             WaitTime = JumpBufferTime
         };
-        AddChild(jumpBufferTimer);
+        AddChild(_jumpBufferTimer);
 
         JumpPressed += StartJumpBuffer;
     }
 
-    private void StartJumpBuffer() => jumpBufferTimer.Start();
+    private void StartJumpBuffer() => _jumpBufferTimer.Start();
 
-    public static void UseJumpBuffer() => Instance.jumpBufferTimer.Stop();
+    public static void UseJumpBuffer() { Instance._jumpBufferTimer.CallDeferred(Timer.MethodName.Stop); }
 
     public static float GetPlayerHorizontalInput() => Input.GetAxis(InputAction.MoveLeft, InputAction.MoveRight);
 

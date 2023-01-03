@@ -93,6 +93,16 @@ public partial class State : RefCounted, IState
     {
         if (!defer)
         {
+            if (onlyCallWhenActive)
+            {
+                Connect(SignalName.Process, Callable.From((Action<double>)((delta) =>
+                {
+                    if (StateMachine.CurrentState == this)
+                        callback(delta);
+                })));
+                return this;
+            }
+
             Process += callback.Invoke;
             return this;
         }
@@ -115,6 +125,16 @@ public partial class State : RefCounted, IState
     {
         if (!defer)
         {
+            if (onlyCallWhenActive)
+            {
+                Connect(SignalName.PhysicsProcess, Callable.From((Action<double>)((delta) =>
+                {
+                    if (StateMachine.CurrentState == this)
+                        callback(delta);
+                })));
+                return this;
+            }
+
             PhysicsProcess += callback.Invoke;
             return this;
         }

@@ -93,42 +93,60 @@ partial class Player : SafeStrings.IScene<Player>
             public static Godot.Timer Get(Godot.Node root) => Path.Get(root);
             public static Godot.Timer GetCached(Godot.Node root) => Path.GetCached(root);
         }
-        public static partial class UpwardsSnapRaycasts
-        {
-            public static SafeStrings.SceneNodePath<Godot.Node2D> Path = "./UpwardsSnapRaycasts";
-            public static Godot.Node2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.Node2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }
-        partial class UpwardsSnapRaycasts { public static partial class Left
-        {
-            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsSnapRaycasts/Left";
-            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }}
-        partial class UpwardsSnapRaycasts { public static partial class LeftMiddle
-        {
-            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsSnapRaycasts/LeftMiddle";
-            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }}
-        partial class UpwardsSnapRaycasts { public static partial class RightMiddle
-        {
-            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsSnapRaycasts/RightMiddle";
-            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }}
-        partial class UpwardsSnapRaycasts { public static partial class Right
-        {
-            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsSnapRaycasts/Right";
-            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
-        }}
         public static partial class DiveTimer
         {
             public static SafeStrings.SceneNodePath<Godot.Timer> Path = "./DiveTimer";
             public static Godot.Timer Get(Godot.Node root) => Path.Get(root);
             public static Godot.Timer GetCached(Godot.Node root) => Path.GetCached(root);
         }
+        public static partial class UpwardsCornerPushRaycasts
+        {
+            public static SafeStrings.SceneNodePath<Godot.Node2D> Path = "./UpwardsCornerPushRaycasts";
+            public static Godot.Node2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.Node2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }
+        partial class UpwardsCornerPushRaycasts { public static partial class Left
+        {
+            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsCornerPushRaycasts/Left";
+            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class UpwardsCornerPushRaycasts { public static partial class MiddleLeft
+        {
+            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsCornerPushRaycasts/MiddleLeft";
+            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class UpwardsCornerPushRaycasts { public static partial class MiddleRight
+        {
+            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsCornerPushRaycasts/MiddleRight";
+            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class UpwardsCornerPushRaycasts { public static partial class Right
+        {
+            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./UpwardsCornerPushRaycasts/Right";
+            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        public static partial class SidewardsCornerPushRaycasts
+        {
+            public static SafeStrings.SceneNodePath<Godot.Node2D> Path = "./SidewardsCornerPushRaycasts";
+            public static Godot.Node2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.Node2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }
+        partial class SidewardsCornerPushRaycasts { public static partial class Bottom
+        {
+            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./SidewardsCornerPushRaycasts/Bottom";
+            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
+        partial class SidewardsCornerPushRaycasts { public static partial class Middle
+        {
+            public static SafeStrings.SceneNodePath<Godot.RayCast2D> Path = "./SidewardsCornerPushRaycasts/Middle";
+            public static Godot.RayCast2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.RayCast2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }}
         
         public static class Unique
         {
