@@ -265,11 +265,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
             FaceLeft = horizontalInput < 0;
     }
 
-    public override void _Process(double delta)
-    {
-        Scene.StateLabel.GetCached(this).Text = MainStateMachine.GetCurrentStateAsString(false);
-    }
-
     private void Jump()
     {
         InputManager.UseJumpBuffer();

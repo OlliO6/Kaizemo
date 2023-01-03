@@ -81,12 +81,6 @@ partial class Player : SafeStrings.IScene<Player>
             public static global::Game.PlayerBehaviour.PlayerCam Get(Godot.Node root) => Path.Get(root);
             public static global::Game.PlayerBehaviour.PlayerCam GetCached(Godot.Node root) => Path.GetCached(root);
         }
-        public static partial class StateLabel
-        {
-            public static SafeStrings.SceneNodePath<Godot.Label> Path = "./StateLabel";
-            public static Godot.Label Get(Godot.Node root) => Path.Get(root);
-            public static Godot.Label GetCached(Godot.Node root) => Path.GetCached(root);
-        }
         public static partial class GroundRememberTimer
         {
             public static SafeStrings.SceneNodePath<Godot.Timer> Path = "./GroundRememberTimer";

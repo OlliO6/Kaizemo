@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://yv8qvgy6jnjb"]
+[gd_scene load_steps=59 format=3 uid="uid://yv8qvgy6jnjb"]
 
 [ext_resource type="Script" path="res://game/player/Player.cs" id="1_usn35"]
 [ext_resource type="PackedScene" uid="uid://co8eduwphcuxe" path="res://game/common/state_machine/state_machine.tscn" id="2_cciaa"]
@@ -372,9 +372,6 @@ graph_offset = Vector2(-266, -55)
 offsets = PackedFloat32Array(0, 0.107023, 0.509225, 1)
 colors = PackedColorArray(0.99, 0.99, 0.99, 0, 0.97417, 0.97417, 0.97417, 1, 0.927438, 0.927438, 0.927438, 1, 0.99, 0.99, 0.99, 0)
 
-[sub_resource type="LabelSettings" id="LabelSettings_gov3n"]
-font_size = 8
-
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_priority = 10.0
@@ -548,16 +545,6 @@ drag_vertical_enabled = true
 editor_draw_drag_margin = true
 script = ExtResource("8_a1nfe")
 playerVelocityInfluence = 0.1
-
-[node name="StateLabel" type="Label" parent="."]
-offset_left = -34.7278
-offset_top = -32.4265
-offset_right = 35.2722
-offset_bottom = -6.42651
-text = " nmb nm"
-label_settings = SubResource("LabelSettings_gov3n")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="GroundRememberTimer" type="Timer" parent="."]
 wait_time = 0.125
