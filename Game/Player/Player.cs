@@ -414,6 +414,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
                     break;
             }
 
+            MainStateMachine.SwitchToState(MainStateId.Fall);
             this.SetVelocityY(0);
         }
     }
