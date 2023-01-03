@@ -11,15 +11,15 @@ partial class Player : SafeStrings.IScene<Player>
     {
         public static partial class MainStateMachine
         {
-            public static SafeStrings.SceneNodePath<StateMachines.StateMachine> Path = "./MainStateMachine";
-            public static StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
-            public static StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<global::StateMachines.StateMachine> Path = "./MainStateMachine";
+            public static global::StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
+            public static global::StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
         }
         public static partial class LoadAbilityStateMachine
         {
-            public static SafeStrings.SceneNodePath<StateMachines.StateMachine> Path = "./LoadAbilityStateMachine";
-            public static StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
-            public static StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<global::StateMachines.StateMachine> Path = "./LoadAbilityStateMachine";
+            public static global::StateMachines.StateMachine Get(Godot.Node root) => Path.Get(root);
+            public static global::StateMachines.StateMachine GetCached(Godot.Node root) => Path.GetCached(root);
         }
         public static partial class CollisionShape2D
         {
@@ -41,9 +41,9 @@ partial class Player : SafeStrings.IScene<Player>
         }
         public static partial class AnimationTree
         {
-            public static SafeStrings.SceneNodePath<Game.PlayerBehaviour.PlayerAnimationTree> Path = "./AnimationTree";
-            public static Game.PlayerBehaviour.PlayerAnimationTree Get(Godot.Node root) => Path.Get(root);
-            public static Game.PlayerBehaviour.PlayerAnimationTree GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<global::Game.PlayerBehaviour.PlayerAnimationTree> Path = "./AnimationTree";
+            public static global::Game.PlayerBehaviour.PlayerAnimationTree Get(Godot.Node root) => Path.Get(root);
+            public static global::Game.PlayerBehaviour.PlayerAnimationTree GetCached(Godot.Node root) => Path.GetCached(root);
         }
         public static partial class DustParticles
         {
@@ -75,11 +75,11 @@ partial class Player : SafeStrings.IScene<Player>
             public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
             public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
-        public static partial class Camera2D
+        public static partial class PlayerCam
         {
-            public static SafeStrings.SceneNodePath<Godot.Camera2D> Path = "./Camera2D";
-            public static Godot.Camera2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.Camera2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<global::Game.PlayerBehaviour.PlayerCam> Path = "./PlayerCam";
+            public static global::Game.PlayerBehaviour.PlayerCam Get(Godot.Node root) => Path.Get(root);
+            public static global::Game.PlayerBehaviour.PlayerCam GetCached(Godot.Node root) => Path.GetCached(root);
         }
         public static partial class StateLabel
         {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://yv8qvgy6jnjb"]
+[gd_scene load_steps=60 format=3 uid="uid://yv8qvgy6jnjb"]
 
 [ext_resource type="Script" path="res://game/player/Player.cs" id="1_usn35"]
 [ext_resource type="PackedScene" uid="uid://co8eduwphcuxe" path="res://game/common/state_machine/state_machine.tscn" id="2_cciaa"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://game/player/PlayerAnimationTree.cs" id="5_b2mhp"]
 [ext_resource type="Material" uid="uid://chpjvmi5swcvg" path="res://particles/dust/dust_particles.material" id="6_nkyyj"]
 [ext_resource type="Texture2D" uid="uid://nftcffrmb84v" path="res://particles/dust/dust_particle.png" id="7_uog8h"]
+[ext_resource type="Script" path="res://game/player/PlayerCam.cs" id="8_a1nfe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
 size = Vector2(6, 15)
@@ -536,7 +537,8 @@ color_ramp = SubResource("Gradient_jg124")
 anim_offset_min = 0.6
 anim_offset_max = 1.0
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="PlayerCam" type="Camera2D" parent="."]
+top_level = true
 current = true
 process_callback = 0
 position_smoothing_enabled = true
@@ -544,6 +546,8 @@ position_smoothing_speed = 10.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 editor_draw_drag_margin = true
+script = ExtResource("8_a1nfe")
+playerVelocityInfluence = 0.1
 
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -34.7278
@@ -595,6 +599,6 @@ enabled = false
 target_position = Vector2(2, 0)
 
 [node name="Middle" type="RayCast2D" parent="SidewardsCornerPushRaycasts"]
-position = Vector2(3, 6)
+position = Vector2(3, 5.5)
 enabled = false
 target_position = Vector2(2, 0)

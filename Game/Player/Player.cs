@@ -233,6 +233,8 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Nothing);
 
         #endregion LoadAbilityStateMachine
+
+        Scene.PlayerCam.Get(this).Init(this);
     }
 
     private void ApplyCornerPushing(double delta)
@@ -337,7 +339,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         if (leftRay.IsColliding() && !midLeftRay.IsColliding())
         {
             PushRight();
-            GD.Print("RIGHT");
             return;
         }
 
@@ -352,7 +353,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer
         if (rightRay.IsColliding() && !midRightRay.IsColliding())
         {
             PushLeft();
-            GD.Print("LEFT");
             return;
         }
 

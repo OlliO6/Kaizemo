@@ -27,6 +27,12 @@ partial class DiveSpender : SafeStrings.IScene<DiveSpender>
             public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
             public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
+        public static partial class NotVisibleDisableHider
+        {
+            public static SafeStrings.SceneNodePath<Godot.VisibleOnScreenEnabler2D> Path = "./NotVisibleDisableHider";
+            public static Godot.VisibleOnScreenEnabler2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.VisibleOnScreenEnabler2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }
         
         public static class Unique
         {

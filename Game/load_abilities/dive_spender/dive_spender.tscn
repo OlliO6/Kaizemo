@@ -24,6 +24,7 @@ disabledTime = 2.0
 shape = SubResource("CircleShape2D_68cr8")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
+process_mode = 4
 modulate = Color(3, 3, 3, 1)
 material = SubResource("ShaderMaterial_vde67")
 
@@ -40,3 +41,6 @@ initial_velocity_max = 16.0
 orbit_velocity_min = -4.0
 orbit_velocity_max = -1.0
 scale_amount_max = 2.0
+
+[node name="NotVisibleDisableHider" type="VisibleOnScreenEnabler2D" parent="."]
+enable_node_path = NodePath("../CanvasGroup")
