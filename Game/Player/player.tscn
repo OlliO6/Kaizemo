@@ -14,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://bs2dm0n0bchjd" path="res://game/player/sounds/gain_dive.ogg" id="12_qx6yi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ia4sn"]
-size = Vector2(6, 15)
+size = Vector2(6, 13)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0iowi"]
 shader = ExtResource("3_mcl2x")
@@ -408,10 +408,10 @@ slide_on_ceiling = false
 floor_max_angle = 0.0
 safe_margin = 0.001
 script = ExtResource("1_usn35")
-jumpVelocity = -118.0
-jumpGravity = 200.0
-jumpCancelGravity = 320.0
-jumpCancelStrenght = 0.25
+jumpVelocity = -120.0
+jumpGravity = 215.0
+jumpCancelGravity = 330.0
+jumpCancelStrenght = 0.24
 groundAcceleration = 400.0
 groundDamping = 0.27
 groundStopDamping = 0.6
@@ -420,7 +420,7 @@ airDamping = 0.2
 airStopDamping = 0.15
 diveDuration = 0.3
 diveGravity = 225.0
-diveVelocityRemain = Vector2(0.2, 0)
+diveVelocityRemain = Vector2(0.3, 0)
 diveUpVelocity = Vector2(0, -150)
 diveDownVelocity = Vector2(0, 180)
 diveLeftVelocity = Vector2(-220, -50)
@@ -432,7 +432,7 @@ diveOutlineColor = Color(1.86, 0.48, 2.13, 1)
 [node name="LoadAbilityStateMachine" parent="." instance=ExtResource("2_cciaa")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_ia4sn")
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -601,31 +601,29 @@ one_shot = true
 one_shot = true
 
 [node name="UpwardsCornerPushRaycasts" type="Node2D" parent="."]
-visible = false
 top_level = true
 
 [node name="Left" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
-position = Vector2(-3, -7)
+position = Vector2(-3, -5)
 enabled = false
 target_position = Vector2(0, -2)
 
 [node name="MiddleLeft" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
-position = Vector2(-0.8, -7)
+position = Vector2(-0.8, -5)
 enabled = false
 target_position = Vector2(0, -2)
 
 [node name="MiddleRight" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
-position = Vector2(0.8, -7)
+position = Vector2(0.8, -5)
 enabled = false
 target_position = Vector2(0, -2)
 
 [node name="Right" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
-position = Vector2(3, -7)
+position = Vector2(3, -5)
 enabled = false
 target_position = Vector2(0, -2)
 
 [node name="SidewardsCornerPushRaycasts" type="Node2D" parent="."]
-visible = false
 
 [node name="Bottom" type="RayCast2D" parent="SidewardsCornerPushRaycasts"]
 position = Vector2(3, 8)

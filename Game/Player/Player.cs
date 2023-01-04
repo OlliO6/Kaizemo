@@ -418,7 +418,10 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
             }
 
             MainStateMachine.SwitchToState(MainStateId.Fall);
-            this.SetVelocityY(0);
+
+            // Reduce the chance that player looses speed
+            GlobalPosition = new Vector2(GlobalPosition.x, GlobalPosition.y - MinPushLenght);
+            this.SetVelocityY(-1);
         }
     }
 
