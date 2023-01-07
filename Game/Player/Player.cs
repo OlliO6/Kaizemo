@@ -4,7 +4,7 @@ using Godot;
 using System;
 using StateMachines;
 
-public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
+public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable, IThrowableItemHolder
 {
     public enum MainStateId { Idle, Run, Fall, Jump, CancelJump, Dead, Dive, UpwardsDive }
 
@@ -51,6 +51,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
     #endregion Exports
 
     private bool _faceLeft;
+    private IThrowableItem _heldItem;
 
     public event Action LoadedAbilityChanged;
 
@@ -312,7 +313,11 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
 
     private void ActionPressedCallback(InputManager.ActionDirection direction)
     {
-        // if (holding) ThrowHeldItem; return;
+        if (IsHoldingItem())
+        {
+            ThrowHeldItem(direction);
+            return;
+        }
 
         if (LoadAbilityStateMachine.CurrentState.Id is LoadAbilityStateId.Dive)
         {
@@ -443,4 +448,26 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable
             _ or LoadAbilityStateId.Nothing => null
         };
     }
+
+    public void CollectThrowableItem(IThrowableItem item)
+    {
+        Callable.From(() =>
+        {
+            item.AsNode2D().Reparent(Scene.ItemHolder.GetCached(this));
+            item.AsNode2D().Position = Vector2.Zero;
+        }).CallDeferred();
+
+        _heldItem = item;
+    }
+
+    public void ThrowHeldItem(InputManager.ActionDirection direction)
+    {
+        _heldItem.AsNode2D().ReparentKeepPosition(GetParent());
+        _heldItem.Throw(direction);
+        _heldItem = null;
+    }
+
+    public bool IsHoldingItem() => _heldItem != null;
+
+    public IThrowableItem GetHeldItem() => _heldItem;
 }

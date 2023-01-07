@@ -15,6 +15,7 @@ do_register_resources=true
 [SafeStrings]
 
 scenes/scene_associations={
+"res://game/ball/ball.tscn": "res://game/ball/Ball.cs",
 "res://game/load_abilities/dive_spender/dive_spender.tscn": "res://game/load_abilities/dive_spender/DiveSpender.cs",
 "res://game/player/player.tscn": "res://game/player/Player.cs"
 }
@@ -31,8 +32,8 @@ InputManager="*res://singletons/InputManager.cs"
 
 [display]
 
-window/size/viewport_width=288
-window/size/viewport_height=162
+window/size/viewport_width=416
+window/size/viewport_height=234
 window/size/window_width_override=1152
 window/size/window_height_override=648
 window/stretch/mode="canvas_items"
@@ -96,6 +97,7 @@ action_right={
 2d_physics/layer_1="Environment"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="KillPlayer"
+2d_physics/layer_4="Items"
 
 [physics]
 

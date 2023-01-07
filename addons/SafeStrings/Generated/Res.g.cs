@@ -6,6 +6,12 @@ public static class Res
     public static class game
     {
         public static readonly ResourcePath<Godot.PackedScene> playground_tscn = "res://game/playground.tscn";
+        public static class ball
+        {
+            public static readonly ResourcePath<Godot.CSharpScript> Ball_cs = "res://game/ball/Ball.cs";
+            public static readonly ResourcePath<Godot.CompressedTexture2D> ball_png = "res://game/ball/ball.png";
+            public static readonly ResourcePath<Godot.PackedScene> ball_tscn = "res://game/ball/ball.tscn";
+        }
         public static class common
         {
             public static readonly ResourcePath<Godot.CSharpScript> LevelMap_cs = "res://game/common/LevelMap.cs";
@@ -13,6 +19,8 @@ public static class Res
             {
                 public static readonly ResourcePath<Godot.CSharpScript> IKillable_cs = "res://game/common/interfaces/IKillable.cs";
                 public static readonly ResourcePath<Godot.CSharpScript> ILoadAbilityObtainer_cs = "res://game/common/interfaces/ILoadAbilityObtainer.cs";
+                public static readonly ResourcePath<Godot.CSharpScript> IThrowableItem_cs = "res://game/common/interfaces/IThrowableItem.cs";
+                public static readonly ResourcePath<Godot.CSharpScript> IThrowableItemHolder_cs = "res://game/common/interfaces/IThrowableItemHolder.cs";
             }
             public static class state_machine
             {

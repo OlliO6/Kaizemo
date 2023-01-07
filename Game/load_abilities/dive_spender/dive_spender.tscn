@@ -15,7 +15,7 @@ shader_parameter/line_scale = 1.0
 [node name="DiveSpender" type="Area2D"]
 modulate = Color(0.988235, 0.988235, 0.988235, 1)
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 monitorable = false
 script = ExtResource("1_kcdui")
 disabledTime = 2.0

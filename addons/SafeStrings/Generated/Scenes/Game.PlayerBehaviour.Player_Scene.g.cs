@@ -75,6 +75,12 @@ partial class Player : SafeStrings.IScene<Player>
             public static Godot.CPUParticles2D Get(Godot.Node root) => Path.Get(root);
             public static Godot.CPUParticles2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
+        public static partial class ItemHolder
+        {
+            public static SafeStrings.SceneNodePath<Godot.Node2D> Path = "./ItemHolder";
+            public static Godot.Node2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.Node2D GetCached(Godot.Node root) => Path.GetCached(root);
+        }
         public static partial class PlayerCam
         {
             public static SafeStrings.SceneNodePath<global::Game.PlayerBehaviour.PlayerCam> Path = "./PlayerCam";

@@ -18,6 +18,17 @@ public static class NodeExtensions
         await from.ToSignal(from.GetTree(), SceneTree.SignalName.PhysicsFrame);
     }
 
+    public static void Reparent(this Node from, Node newParent)
+    {
+        from.GetParent()?.RemoveChild(from);
+        newParent.AddChild(from);
+    }
+
+    public static void ReparentDeffered(this Node from, Node newParent)
+    {
+        Callable.From(() => from.Reparent(newParent)).CallDeferred();
+    }
+
     /// <summary>
     /// Gets the children from this object with an specific type
     /// </summary>
