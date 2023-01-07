@@ -27,11 +27,11 @@ partial class Ball : SafeStrings.IScene<Ball>
             public static Godot.Area2D Get(Godot.Node root) => Path.Get(root);
             public static Godot.Area2D GetCached(Godot.Node root) => Path.GetCached(root);
         }
-        partial class PickUpArea { public static partial class CollisionShape2D
+        partial class PickUpArea { public static partial class CollisionPolygon2D
         {
-            public static SafeStrings.SceneNodePath<Godot.CollisionShape2D> Path = "./PickUpArea/CollisionShape2D";
-            public static Godot.CollisionShape2D Get(Godot.Node root) => Path.Get(root);
-            public static Godot.CollisionShape2D GetCached(Godot.Node root) => Path.GetCached(root);
+            public static SafeStrings.SceneNodePath<Godot.CollisionPolygon2D> Path = "./PickUpArea/CollisionPolygon2D";
+            public static Godot.CollisionPolygon2D Get(Godot.Node root) => Path.Get(root);
+            public static Godot.CollisionPolygon2D GetCached(Godot.Node root) => Path.GetCached(root);
         }}
         public static partial class PlayerJumpSound
         {

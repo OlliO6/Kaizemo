@@ -1,47 +1,43 @@
-[gd_scene load_steps=7 format=3 uid="uid://deljsuy7a4eno"]
+[gd_scene load_steps=5 format=3 uid="uid://deljsuy7a4eno"]
 
 [ext_resource type="Script" path="res://game/ball/Ball.cs" id="1_rbxrg"]
 [ext_resource type="Texture2D" uid="uid://bfv3cdxa1m6" path="res://game/ball/ball.png" id="2_o71bh"]
 [ext_resource type="AudioStream" uid="uid://dotniqp4ii770" path="res://game/player/sounds/jump.ogg" id="3_c1etq"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ur3r7"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_v18xr"]
-radius = 5.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1nc21"]
 streams_count = 1
 stream_0/stream = ExtResource("3_c1etq")
 stream_0/weight = 1.0
 
-[node name="Ball" type="RigidBody2D"]
+[node name="Ball" type="CharacterBody2D"]
 collision_layer = 8
-inertia = 1.0
-physics_material_override = SubResource("PhysicsMaterial_ur3r7")
-continuous_cd = 2
-lock_rotation = true
+safe_margin = 0.001
 script = ExtResource("1_rbxrg")
 playerJumpVelocity = -150.0
-holderVelocityRemain = 0.3
+groundDamping = 0.9
+airDamping = 0.025
+holderVelocityRemain = Vector2(0.3, 0.1)
 throwVelocityUp = Vector2(0, -175)
 throwVelocityDown = Vector2(0, 100)
 throwVelocityLeft = Vector2(-150, -80)
 throwVelocityRight = Vector2(150, -80)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 polygon = PackedVector2Array(-3, 4, 3, 4, 4, 3, 4, -3, 3, -4, -3, -4, -4, -3, -4, 3)
 
 [node name="Ball" type="Sprite2D" parent="."]
 texture = ExtResource("2_o71bh")
 
 [node name="PickUpArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 input_pickable = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
-shape = SubResource("CircleShape2D_v18xr")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PickUpArea"]
+polygon = PackedVector2Array(-5, -3, -5, 3, -3, 5, 3, 5, 5, 3, 5, -3, 3, -5, -3, -5)
 
 [node name="PlayerJumpSound" type="AudioStreamPlayer2D" parent="."]
 process_mode = 1

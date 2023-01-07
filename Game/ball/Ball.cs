@@ -4,16 +4,21 @@ using PlayerBehaviour;
 using Godot;
 using System;
 
-public partial class Ball : RigidBody2D, ILoadAbilityObtainer, IThrowableItem
+public partial class Ball : CharacterBody2D, ILoadAbilityObtainer, IThrowableItem
 {
-    [Export] private float playerJumpVelocity;
+    [Export] public float playerJumpVelocity;
+
+    [ExportGroup("Physics")]
+    [Export] public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+    [Export(PropertyHint.Range, "0,1")] public float groundDamping;
+    [Export(PropertyHint.Range, "0,1")] public float airDamping;
 
     [ExportGroup("Throw")]
-    [Export] private float holderVelocityRemain;
-    [Export] private Vector2 throwVelocityUp;
-    [Export] private Vector2 throwVelocityDown;
-    [Export] private Vector2 throwVelocityLeft;
-    [Export] private Vector2 throwVelocityRight;
+    [Export] public Vector2 holderVelocityRemain;
+    [Export] public Vector2 throwVelocityUp;
+    [Export] public Vector2 throwVelocityDown;
+    [Export] public Vector2 throwVelocityLeft;
+    [Export] public Vector2 throwVelocityRight;
 
     public event Action LoadedAbilityChanged;
 
@@ -23,6 +28,17 @@ public partial class Ball : RigidBody2D, ILoadAbilityObtainer, IThrowableItem
     public override void _Ready()
     {
         Scene.PickUpArea.Get(this).BodyEntered += PickupAreaBodyEnteredCallback;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 velocity = Velocity;
+        velocity.y += gravity * (float)delta;
+        velocity.x = velocity.x.Damped(IsOnFloor() ? groundDamping : airDamping, delta);
+        velocity.y = velocity.y.Damped(IsOnFloor() ? groundDamping : airDamping, delta);
+
+        Velocity = velocity;
+        MoveAndSlide();
     }
 
     public LoadAbility? GetLoadedAbility() => bound?.GetLoadedAbility();
@@ -46,7 +62,7 @@ public partial class Ball : RigidBody2D, ILoadAbilityObtainer, IThrowableItem
     {
         ProcessMode = Node.ProcessModeEnum.Inherit;
 
-        LinearVelocity = holder.Velocity * holderVelocityRemain + direction switch
+        Velocity = holder.Velocity * holderVelocityRemain + direction switch
         {
             InputManager.ActionDirection.Up => throwVelocityUp,
             InputManager.ActionDirection.Down => throwVelocityDown,
@@ -66,6 +82,8 @@ public partial class Ball : RigidBody2D, ILoadAbilityObtainer, IThrowableItem
     {
         ProcessMode = Node.ProcessModeEnum.Disabled;
         Scene.PickUpArea.Get(this).BodyEntered -= PickupAreaBodyEnteredCallback;
+
+        Velocity = Vector2.Zero;
 
         bound = holder as ILoadAbilityObtainer;
 

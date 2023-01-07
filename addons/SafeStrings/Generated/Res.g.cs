@@ -25,6 +25,7 @@ public static class Res
             public static class state_machine
             {
                 public static readonly ResourcePath<Godot.CSharpScript> IState_cs = "res://game/common/state_machine/IState.cs";
+                public static readonly ResourcePath<Godot.CSharpScript> PhysicsUtils_cs = "res://game/common/state_machine/PhysicsUtils.cs";
                 public static readonly ResourcePath<Godot.CSharpScript> ProcessCallbackDelegate_cs = "res://game/common/state_machine/ProcessCallbackDelegate.cs";
                 public static readonly ResourcePath<Godot.CSharpScript> State_cs = "res://game/common/state_machine/State.cs";
                 public static readonly ResourcePath<Godot.CSharpScript> StateMachine_cs = "res://game/common/state_machine/StateMachine.cs";

@@ -270,7 +270,7 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable, 
     {
         var velocity = Velocity;
         velocity.x += horizontalInput * acceleration * (float)delta;
-        velocity.x *= Mathf.Pow(1f - (horizontalInput == 0 ? stopDamping : damping), (float)delta * 10f);
+        velocity.x = velocity.x.Damped(horizontalInput == 0 ? stopDamping : damping, delta);
         Velocity = velocity;
 
         if (horizontalInput != 0)
