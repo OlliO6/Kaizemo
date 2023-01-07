@@ -46,8 +46,6 @@ public static class Res
             public static readonly ResourcePath<Godot.CSharpScript> Player_cs = "res://game/player/Player.cs";
             public static readonly ResourcePath<Godot.CSharpScript> PlayerAnimationTree_cs = "res://game/player/PlayerAnimationTree.cs";
             public static readonly ResourcePath<Godot.CSharpScript> PlayerCam_cs = "res://game/player/PlayerCam.cs";
-            public static readonly ResourcePath<Godot.CSharpScript> PlayerOld_cs = "res://game/player/PlayerOld.cs";
-            public static readonly ResourcePath<Godot.CSharpScript> PlayerWeird_cs = "res://game/player/PlayerWeird.cs";
             public static readonly ResourcePath<Godot.CompressedTexture2D> player_png = "res://game/player/player.png";
             public static readonly ResourcePath<Godot.PackedScene> player_tscn = "res://game/player/player.tscn";
             public static class sounds

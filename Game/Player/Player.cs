@@ -84,6 +84,11 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable, 
         InputManager.ActionPressed += ActionPressedCallback;
     }
 
+    public override void _ExitTree()
+    {
+        InputManager.ActionPressed -= ActionPressedCallback;
+    }
+
     public override void _Ready()
     {
         #region MainStateMachine 
@@ -194,6 +199,9 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable, 
                 AnimTree.LandActive = true;
                 Scene.DustParticles.LandParticles.GetCached(this).Restart();
             }
+
+            if (LoadAbilityStateMachine.CurrentState?.HasTag(LoadAbilityStateTag.LooseOnGround) ?? false)
+                LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Nothing);
         });
 
         MainStateMachine.WithExitTagCallback(MainStateTag.OnGround, () =>
@@ -233,11 +241,6 @@ public partial class Player : CharacterBody2D, ILoadAbilityObtainer, IKillable, 
                 Sprite.Material.Set("shader_parameter/newColor", diveOutlineColor);
                 Scene.Sounds.GainDive.GetCached(this).Play();
             });
-
-        LoadAbilityStateMachine.WithPhysicsProcessTagCallback(LoadAbilityStateTag.LooseOnGround, (_) =>
-        {
-            LoadAbilityStateMachine.SwitchStateIf(LoadAbilityStateId.Nothing, IsOnFloor());
-        }, true);
 
         LoadAbilityStateMachine.SwitchToState(LoadAbilityStateId.Nothing);
 
