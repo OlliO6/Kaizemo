@@ -5,7 +5,10 @@ using System;
 
 public partial class PlayerCam : Camera2D
 {
-    [Export] public float playerVelocityInfluence;
+    [Export] public Vector2 playerVelocityInfluence;
+    [Export] public Vector2 playerVelocitySmoothing;
+
+    private Vector2 _smoothedPlayerVelocity;
 
     private Player _player;
 
@@ -16,6 +19,16 @@ public partial class PlayerCam : Camera2D
 
     public override void _PhysicsProcess(double delta)
     {
-        Position = _player?.Position + _player?.Velocity * playerVelocityInfluence ?? Vector2.Zero;
+        if (_player == null)
+            return;
+
+        SmoothVelocity();
+
+        GlobalPosition = _player.GlobalPosition + _smoothedPlayerVelocity * playerVelocityInfluence;
+
+        void SmoothVelocity()
+        {
+            _smoothedPlayerVelocity = _smoothedPlayerVelocity.Lerp(_player.Velocity, ((float)delta * (Vector2.One / playerVelocitySmoothing)).Clamp(Vector2.Zero, Vector2.One));
+        }
     }
 }
