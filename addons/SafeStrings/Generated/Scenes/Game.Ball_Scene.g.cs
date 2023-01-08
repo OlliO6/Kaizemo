@@ -3,7 +3,7 @@ partial class Ball : SafeStrings.IScene<Ball>
 {
     public static Ball Instantiate()
     {
-        var val = SafeStrings.Res.game.ball.ball_tscn.Value.Instantiate<Ball>();
+        var val = SafeStrings.Res.Game.Ball.Ball_tscn.Value.Instantiate<Ball>();
         ((SafeStrings.IScene<Ball>)val).OnInstanced();
         return val;
     }

@@ -17,18 +17,21 @@ do_register_resources=true
 scenes/scene_associations={
 "res://game/ball/ball.tscn": "res://game/ball/Ball.cs",
 "res://game/load_abilities/dive_spender/dive_spender.tscn": "res://game/load_abilities/dive_spender/DiveSpender.cs",
-"res://game/player/player.tscn": "res://game/player/Player.cs"
+"res://game/player/player.tscn": "res://game/player/Player.cs",
+"res://singletons/transitions/transitions.tscn": "res://singletons/transitions/Transitions.cs",
+"res://ui/main_menu/main_menu.tscn": "res://ui/main_menu/MainMenu.cs"
 }
 
 [application]
 
 config/name="Kaizemo 4"
-run/main_scene="res://game/playground.tscn"
+run/main_scene="res://ui/main_menu/main_menu.tscn"
 config/features=PackedStringArray("4.0", "C#", "Mobile")
 
 [autoload]
 
 InputManager="*res://singletons/InputManager.cs"
+Transitions="*res://singletons/transitions/transitions.tscn"
 
 [display]
 
@@ -37,6 +40,7 @@ window/size/viewport_height=234
 window/size/window_width_override=1152
 window/size/window_height_override=648
 window/stretch/mode="canvas_items"
+window/quality/screen_space_aa=1
 
 [dotnet]
 
@@ -49,6 +53,11 @@ scene/scene_naming=1
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/CSResourePicker/plugin.cfg", "res://addons/SafeStrings/plugin.cfg", "res://addons/BetterFileSystem/plugin.cfg")
+
+[gui]
+
+theme/custom="res://ui/common/main_theme.theme"
+theme/custom_font="res://ui/common/fonts/Merriweather-Black.ttf"
 
 [input]
 
@@ -96,8 +105,9 @@ action_right={
 
 2d_physics/layer_1="Environment"
 2d_physics/layer_2="Player"
-2d_physics/layer_3="KillPlayer"
+2d_physics/layer_3="Kill Player"
 2d_physics/layer_4="Items"
+2d_physics/layer_10="Camera Bounds"
 
 [physics]
 

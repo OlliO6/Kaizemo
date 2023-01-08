@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Text;
 using Godot;
 
 #if TOOLS
@@ -18,8 +19,23 @@ namespace SafeStrings.Editor
 
         public static string ConvertNameToCSName(string filespaceName)
         {
-            return ((char.IsLetter(filespaceName.First()) || filespaceName.StartsWith('_')) ? filespaceName : filespaceName
-                .Insert(0, "_")).Replace('.', '_').Replace(' ', '_');
+            string result = "";
+
+            if (!char.IsLetter(filespaceName.First()) && !filespaceName.StartsWith('_'))
+                result = "_";
+
+            foreach (char c in filespaceName.ToPascalCase())
+            {
+                if (char.IsLetterOrDigit(c))
+                {
+                    result += c;
+                    continue;
+                }
+
+                result += '_';
+            }
+
+            return result;
         }
 
         public static string ConvertResPathToCSPath(string resPath)

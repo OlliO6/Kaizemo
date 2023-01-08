@@ -3,7 +3,7 @@ partial class Player : SafeStrings.IScene<Player>
 {
     public static Player Instantiate()
     {
-        var val = SafeStrings.Res.game.player.player_tscn.Value.Instantiate<Player>();
+        var val = SafeStrings.Res.Game.Player.Player_tscn.Value.Instantiate<Player>();
         ((SafeStrings.IScene<Player>)val).OnInstanced();
         return val;
     }
