@@ -22,4 +22,11 @@ public static class Node2DExtensions
     {
         Callable.From(() => from.ReparentKeepPosition(newParent)).CallDeferred();
     }
+
+    public static void SetTopLevelKeepPosition(this Node2D from, bool enable)
+    {
+        var globPos = from.GlobalPosition;
+        from.TopLevel = enable;
+        from.GlobalPosition = globPos;
+    }
 }

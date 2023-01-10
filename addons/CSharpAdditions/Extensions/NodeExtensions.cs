@@ -8,16 +8,6 @@ using System.Threading.Tasks;
 
 public static class NodeExtensions
 {
-    public static async Task ProcessFrame(this Node from)
-    {
-        await from.ToSignal(from.GetTree(), SceneTree.SignalName.ProcessFrame);
-    }
-
-    public static async Task PhysicsFrame(this Node from)
-    {
-        await from.ToSignal(from.GetTree(), SceneTree.SignalName.PhysicsFrame);
-    }
-
     public static void Reparent(this Node from, Node newParent)
     {
         from.GetParent()?.RemoveChild(from);
@@ -61,6 +51,9 @@ public static class NodeExtensions
         return result;
     }
 
+    /// <summary>
+    /// Uses timer node
+    /// </summary>
     public static async Task ToTime(this Node from, float time)
     {
         var timer = new Timer();
