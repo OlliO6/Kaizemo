@@ -566,18 +566,19 @@ anim_offset_max = 1.0
 [node name="ItemHolder" type="Node2D" parent="."]
 
 [node name="PlayerCam" type="Camera2D" parent="."]
-top_level = true
 current = true
 process_callback = 0
 position_smoothing_enabled = true
-position_smoothing_speed = 6.923
+position_smoothing_speed = 6.0
+drag_horizontal_enabled = true
 drag_vertical_enabled = true
 drag_left_margin = 0.1
 drag_right_margin = 0.1
+drag_bottom_margin = 0.05
 editor_draw_drag_margin = true
 script = ExtResource("8_a1nfe")
-playerVelocityInfluence = Vector2(0.4, 0.3)
-playerVelocitySmoothing = Vector2(0.8, 0.8)
+playerVelocityInfluence = Vector2(0.55, 0.3)
+playerVelocitySmoothing = Vector2(0.8, 0.5)
 
 [node name="Sounds" type="Node2D" parent="."]
 
@@ -613,12 +614,12 @@ enabled = false
 target_position = Vector2(0, -2)
 
 [node name="MiddleLeft" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
-position = Vector2(-0.8, -5)
+position = Vector2(-0.5, -5)
 enabled = false
 target_position = Vector2(0, -2)
 
 [node name="MiddleRight" type="RayCast2D" parent="UpwardsCornerPushRaycasts"]
-position = Vector2(0.8, -5)
+position = Vector2(0.5, -5)
 enabled = false
 target_position = Vector2(0, -2)
 

@@ -8,13 +8,14 @@ public partial class PlayerCam : Camera2D
     [Export] public Vector2 playerVelocityInfluence;
     [Export] public Vector2 playerVelocitySmoothing;
 
-    private Vector2 _smoothedPlayerVelocity;
+    private Vector2 _smoothedPlayerVelocity = Vector2.Zero;
 
     private Player _player;
 
     public void Init(Player player)
     {
         _player = player;
+        this.SetTopLevelKeepPosition(true);
     }
 
     public override void _PhysicsProcess(double delta)
